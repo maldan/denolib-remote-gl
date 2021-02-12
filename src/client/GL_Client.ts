@@ -121,6 +121,7 @@ export class GL_Client {
                 code: e.keyCode,
             });
         });
+
         document.addEventListener("wheel", (e: WheelEvent) => {
             this.send({
                 type: "zoom",
