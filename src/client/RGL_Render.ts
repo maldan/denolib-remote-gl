@@ -1,14 +1,14 @@
 // deno-lint-ignore camelcase
-import { GL_Client } from "./GL_Client.ts";
+import { RGL_Client } from "./RGL_Client.ts";
 // deno-lint-ignore camelcase
-import { GL_ClientObject } from "./GL_ClientObject.ts";
+import { RGL_ClientObject } from "./RGL_ClientObject.ts";
 // deno-lint-ignore camelcase
-import { GL_Material } from "./GL_Material.ts";
+import { RGL_Material } from "./RGL_Material.ts";
 
 // deno-lint-ignore camelcase
-export class GL_Render {
-    material: GL_Material[] = [];
-    objectList: GL_ClientObject[] = [];
+export class RGL_Render {
+    material: RGL_Material[] = [];
+    objectList: RGL_ClientObject[] = [];
 
     private _gl!: WebGLRenderingContext;
 

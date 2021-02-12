@@ -1,21 +1,21 @@
 import { ByteSet, WebSocket } from "../../server.deps.ts";
 // deno-lint-ignore camelcase
-import { GL_Object } from "./../engine/GL_Object.ts";
+import { RGL_Object } from "./../engine/RGL_Object.ts";
 // deno-lint-ignore camelcase
-import { GL_Scene } from "./../engine/GL_Scene.ts";
+import { RGL_Scene } from "./../engine/RGL_Scene.ts";
 // deno-lint-ignore camelcase
-import { GL_Shader } from "./../engine/GL_Shader.ts";
+import { RGL_Shader } from "./../engine/RGL_Shader.ts";
 // deno-lint-ignore camelcase
-import { GL_Input } from "./GL_Input.ts";
+import { RGL_Input } from "./RGL_Input.ts";
 
 // deno-lint-ignore camelcase
-export class GL_Session {
-    readonly scene: GL_Scene;
+export class RGL_Session {
+    readonly scene: RGL_Scene;
     private _clientList: Set<WebSocket.WebSocket> = new Set();
-    readonly input: GL_Input = new GL_Input();
+    readonly input: RGL_Input = new RGL_Input();
 
     constructor() {
-        this.scene = new GL_Scene(this);
+        this.scene = new RGL_Scene(this);
     }
 
     addClient(client: WebSocket.WebSocket) {
@@ -47,7 +47,7 @@ export class GL_Session {
 
     async syncShaders() {
         // Get all shaders
-        const shaders: GL_Shader[] = [];
+        const shaders: RGL_Shader[] = [];
         for (let i = 0; i < this.scene.objectList.length; i++) {
             const obj = this.scene.objectList[i];
             if (!shaders.find((x) => x.id === obj.shader.id)) {

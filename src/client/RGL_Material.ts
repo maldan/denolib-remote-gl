@@ -1,14 +1,14 @@
 // deno-lint-ignore camelcase
-import { GL_Shader } from "../engine/GL_Shader.ts";
+import { RGL_Shader } from "../engine/RGL_Shader.ts";
 
 // deno-lint-ignore camelcase
-export class GL_Material {
+export class RGL_Material {
     program: WebGLProgram;
     attribute: { [x: string]: number } = {};
     uniform: { [x: string]: WebGLUniformLocation | null } = {};
     private _gl!: WebGLRenderingContext;
 
-    constructor(gl: WebGLRenderingContext, shader: GL_Shader) {
+    constructor(gl: WebGLRenderingContext, shader: RGL_Shader) {
         this._gl = gl;
 
         // Load shaders

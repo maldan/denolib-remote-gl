@@ -1,7 +1,7 @@
 import { Matrix2D } from "../../server.deps.ts";
 
 // deno-lint-ignore camelcase
-export class GL_Camera {
+export class RGL_Camera {
     matrix: Matrix2D = new Matrix2D();
 
     width = 0;

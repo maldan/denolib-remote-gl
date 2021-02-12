@@ -1,22 +1,22 @@
 // deno-lint-ignore camelcase
-import { GL_Session } from "../server/GL_Session.ts";
+import { RGL_Session } from "../server/RGL_Session.ts";
 // deno-lint-ignore camelcase
-import { GL_Camera } from "./GL_Camera.ts";
+import { RGL_Camera } from "./RGL_Camera.ts";
 // deno-lint-ignore camelcase
-import { GL_Object } from "./GL_Object.ts";
+import { RGL_Object } from "./RGL_Object.ts";
 
 // deno-lint-ignore camelcase
-export class GL_Scene {
-    readonly camera: GL_Camera = new GL_Camera();
-    readonly objectList: GL_Object[] = [];
-    private _session: GL_Session;
+export class RGL_Scene {
+    readonly camera: RGL_Camera = new RGL_Camera();
+    readonly objectList: RGL_Object[] = [];
+    private _session: RGL_Session;
     private _index = 0;
 
-    constructor(session: GL_Session) {
+    constructor(session: RGL_Session) {
         this._session = session;
     }
 
-    add(obj: GL_Object) {
+    add(obj: RGL_Object) {
         obj.id = this._index++;
         this.objectList.push(obj);
     }

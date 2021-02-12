@@ -3,20 +3,20 @@
 declare var document: HTMLDocument;
 
 // deno-lint-ignore camelcase
-import { GL_Render } from "../client/GL_Render.ts";
+import { RGL_Render } from "../client/RGL_Render.ts";
 // deno-lint-ignore camelcase
-import { GL_Shader } from "../engine/GL_Shader.ts";
+import { RGL_Shader } from "../engine/RGL_Shader.ts";
 // deno-lint-ignore camelcase
-import { GL_ClientObject } from "./GL_ClientObject.ts";
+import { RGL_ClientObject } from "./RGL_ClientObject.ts";
 // deno-lint-ignore camelcase
-import { GL_Material } from "./GL_Material.ts";
+import { RGL_Material } from "./RGL_Material.ts";
 
 import { ByteSet } from "../../client.deps.ts";
 
 // deno-lint-ignore camelcase
-export class GL_Client {
+export class RGL_Client {
     private _gl!: WebGLRenderingContext;
-    private _render!: GL_Render;
+    private _render!: RGL_Render;
     private _ws!: WebSocket;
     private _url = "";
     private _isConnected = false;
@@ -48,7 +48,7 @@ export class GL_Client {
         // Init render
         this._gl = gl;
         this._url = url;
-        this._render = new GL_Render(gl);
+        this._render = new RGL_Render(gl);
 
         this.initSocket();
         this.initEvents();
@@ -157,8 +157,8 @@ export class GL_Client {
                 const p = JSON.parse(msg.data);
                 if (p.type === "shaders") {
                     for (let i = 0; i < p.data.length; i++) {
-                        const shader = new GL_Shader(p.data[i]);
-                        const material = new GL_Material(this._gl, shader);
+                        const shader = new RGL_Shader(p.data[i]);
+                        const material = new RGL_Material(this._gl, shader);
                         this._render.material[shader.id] = material;
                     }
                 }
@@ -166,7 +166,7 @@ export class GL_Client {
                     for (let i = 0; i < p.data.length; i++) {
                         const exists = this._render.objectList.find((x) => x.id === p.data[i].id);
                         if (!exists) {
-                            const obj = new GL_ClientObject(this._gl, p.data[i]);
+                            const obj = new RGL_ClientObject(this._gl, p.data[i]);
                             this._render.objectList.push(obj);
                         }
                     }

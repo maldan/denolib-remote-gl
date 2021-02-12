@@ -1,5 +1,5 @@
 // deno-lint-ignore camelcase
-export class GL_Mesh {
+export class RGL_Mesh {
     index: number[] = [0, 1, 2, 0, 2, 3];
     vertex: number[] = [-0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5];
     uv: number[] = [0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0];

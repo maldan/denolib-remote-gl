@@ -1,5 +1,5 @@
 // deno-lint-ignore camelcase
-export class GL_Shader {
+export class RGL_Shader {
     id = 1;
     vertex = `
         attribute vec2 aPosition;

@@ -1,13 +1,13 @@
 import { Matrix2D } from "../../server.deps.ts";
 // deno-lint-ignore camelcase
-import { GL_Camera } from "./GL_Camera.ts";
+import { RGL_Camera } from "./RGL_Camera.ts";
 // deno-lint-ignore camelcase
-import { GL_Mesh } from "./GL_Mesh.ts";
+import { RGL_Mesh } from "./RGL_Mesh.ts";
 // deno-lint-ignore camelcase
-import { GL_Shader } from "./GL_Shader.ts";
+import { RGL_Shader } from "./RGL_Shader.ts";
 
 // deno-lint-ignore camelcase
-export class GL_Object {
+export class RGL_Object {
     // Params
     id = 0;
     x = 0;
@@ -25,8 +25,8 @@ export class GL_Object {
 
     // Data
     matrix: Matrix2D = new Matrix2D();
-    mesh: GL_Mesh = new GL_Mesh();
-    shader: GL_Shader = new GL_Shader();
+    mesh: RGL_Mesh = new RGL_Mesh();
+    shader: RGL_Shader = new RGL_Shader();
     textureUrl = "";
     isUseTextureSize = false;
 
@@ -34,9 +34,9 @@ export class GL_Object {
     oldParams = { x: 0, y: 0, rotation: 0, scaleX: 0, scaleY: 0 };
 
     // Events
-    private _eventList: { [x: string]: ((obj: GL_Object, ...data: unknown[]) => void)[] } = {};
+    private _eventList: { [x: string]: ((obj: RGL_Object, ...data: unknown[]) => void)[] } = {};
 
-    update(camera: GL_Camera) {}
+    update(camera: RGL_Camera) {}
 
     checkChange() {
         this.isChanged = false;
@@ -58,7 +58,7 @@ export class GL_Object {
         this.oldParams.scaleY = this.scaleY;
     }
 
-    on(event: string, callback: (obj: GL_Object) => void) {
+    on(event: string, callback: (obj: RGL_Object) => void) {
         if (!this._eventList[event]) {
             this._eventList[event] = [];
         }

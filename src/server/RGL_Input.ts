@@ -101,7 +101,7 @@ export enum Keys {
 }
 
 // deno-lint-ignore camelcase
-export class GL_Input {
+export class RGL_Input {
     readonly cursor: {
         x: number;
         y: number;

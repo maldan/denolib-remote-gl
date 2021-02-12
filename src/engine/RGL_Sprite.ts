@@ -1,9 +1,9 @@
 // deno-lint-ignore-file
-import { GL_Camera } from "./GL_Camera.ts";
-import { GL_Object } from "./GL_Object.ts";
+import { RGL_Camera } from "./RGL_Camera.ts";
+import { RGL_Object } from "./RGL_Object.ts";
 
 // deno-lint-ignore-file
-export class GL_Sprite extends GL_Object {
+export class RGL_Sprite extends RGL_Object {
     constructor(
         width: number,
         height: number,
@@ -20,7 +20,7 @@ export class GL_Sprite extends GL_Object {
         }
     }
 
-    update(camera: GL_Camera) {
+    update(camera: RGL_Camera) {
         const raw = this.matrix.matrix;
 
         // Calculate matrix

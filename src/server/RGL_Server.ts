@@ -1,10 +1,10 @@
 import { WebSocket, Http } from "../../server.deps.ts";
 // deno-lint-ignore camelcase
-import { GL_Session } from "./GL_Session.ts";
+import { RGL_Session } from "./RGL_Session.ts";
 
 // deno-lint-ignore camelcase
-export class GL_Server {
-    public readonly session = new GL_Session();
+export class RGL_Server {
+    public readonly session = new RGL_Session();
 
     async handleWs(sock: WebSocket.WebSocket) {
         // Create session
@@ -89,7 +89,9 @@ export class GL_Server {
     }
 
     async compileClientTo(path: string) {
-        const root = import.meta.url.replace("src/server/GL_Server.ts", "").replace("file:///", "");
+        const root = import.meta.url
+            .replace("src/server/RGL_Server.ts", "")
+            .replace("file:///", "");
         console.log(`Client compilation...`);
         const cmd = Deno.run({
             cmd: ["deno", "bundle", "--config", root + "tsconfig.json", root + "client.ts", path],

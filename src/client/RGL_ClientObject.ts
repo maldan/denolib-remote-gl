@@ -1,15 +1,15 @@
 // deno-lint-ignore camelcase
-import { GL_Texture } from "./GL_Texture.ts";
+import { RGL_Texture } from "./RGL_Texture.ts";
 
 // deno-lint-ignore camelcase
-export class GL_ClientObject {
+export class RGL_ClientObject {
     vertex!: WebGLBuffer;
     index!: WebGLBuffer;
     uv!: WebGLBuffer;
     shaderId = 0;
     id = 0;
     tint: number[] = [1, 1, 1];
-    texture!: GL_Texture;
+    texture!: RGL_Texture;
 
     private _gl!: WebGLRenderingContext;
     private _vertexCurrent: Float32Array = new Float32Array();
@@ -48,7 +48,7 @@ export class GL_ClientObject {
         this.tint = tint;
 
         if (textureUrl) {
-            this.texture = new GL_Texture(gl, textureUrl);
+            this.texture = new RGL_Texture(gl, textureUrl);
             this.texture.load();
         }
 

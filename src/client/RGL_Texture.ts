@@ -1,7 +1,7 @@
 /// <reference lib="dom" />
 
 // deno-lint-ignore camelcase
-export class GL_Texture {
+export class RGL_Texture {
     texture: WebGLTexture;
     url = "";
     width = 32;
