@@ -45,10 +45,16 @@ export class GL_Server {
                     }
 
                     if (p.type === "keydown") {
-                        console.log("keydown", p.key);
+                        this.session.input.keys[p.code] = true;
                     }
                     if (p.type === "keyup") {
-                        console.log("keyup", p.key);
+                        this.session.input.keys[p.code] = false;
+                    }
+                    if (p.type === "zoom") {
+                        this.session.scene.camera.zoom *= 1 - p.zoom;
+                        this.session.scene.objectList.forEach((x) => {
+                            x.isChanged = true;
+                        });
                     }
                 } else if (WebSocket.isWebSocketCloseEvent(ev)) {
                     this.session.removeClient(sock);

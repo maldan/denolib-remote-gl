@@ -111,12 +111,20 @@ export class GL_Client {
             this.send({
                 type: "keydown",
                 key: e.key,
+                code: e.keyCode,
             });
         });
         document.addEventListener("keyup", (e: KeyboardEvent) => {
             this.send({
                 type: "keyup",
                 key: e.key,
+                code: e.keyCode,
+            });
+        });
+        document.addEventListener("wheel", (e: WheelEvent) => {
+            this.send({
+                type: "zoom",
+                zoom: e.deltaY > 0 ? 0.025 : -0.025,
             });
         });
     }

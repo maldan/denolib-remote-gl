@@ -28,6 +28,7 @@ export class GL_Object {
     mesh: GL_Mesh = new GL_Mesh();
     shader: GL_Shader = new GL_Shader();
     textureUrl = "";
+    isUseTextureSize = false;
 
     // Cache
     oldParams = { x: 0, y: 0, rotation: 0, scaleX: 0, scaleY: 0 };

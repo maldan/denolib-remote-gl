@@ -39,7 +39,7 @@ export class GL_Scene {
         if (event === "mouseover") {
             for (let i = 0; i < this.objectList.length; i++) {
                 const obj = this.objectList[i];
-                const pos = this.camera.toWorldPosition(this.cursor);
+                const pos = this.camera.toWorldPosition(this._session.input.cursor);
 
                 if (!obj.isMouseOver && obj.mesh.isPointInsideMesh(pos)) {
                     obj.isMouseOver = true;

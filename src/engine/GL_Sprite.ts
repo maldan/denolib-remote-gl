@@ -4,11 +4,20 @@ import { GL_Object } from "./GL_Object.ts";
 
 // deno-lint-ignore-file
 export class GL_Sprite extends GL_Object {
-    constructor(width: number, height: number, textureUrl: string = "") {
+    constructor(
+        width: number,
+        height: number,
+        textureUrl: string = "",
+        isUseTextureSize: boolean = false
+    ) {
         super();
         this.textureUrl = textureUrl;
         this.width = width;
         this.height = height;
+        this.isUseTextureSize = isUseTextureSize;
+
+        if (isUseTextureSize) {
+        }
     }
 
     update(camera: GL_Camera) {
