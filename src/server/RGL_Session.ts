@@ -49,11 +49,6 @@ export class RGL_Session {
         }
     }
 
-    resize(width: number, height: number) {
-        this.scene.camera.width = width;
-        this.scene.camera.height = height;
-    }
-
     async syncShaderList() {
         // Get all shaders
         const shaders: RGL_Shader[] = [];
@@ -133,27 +128,29 @@ export class RGL_Session {
     }
 
     async syncChangeList() {
+        // Get only changed objects
         const changes = this.scene.getChangedObjects();
-        //const bytes = new ByteSet(1 + 2 + changes.length * 8 * 4 + changes.length * 4);
-        //bytes.write.uint8(1); // package id
-        //bytes.write.uint16(changes.length); // object amount
 
-        /*for (let i = 0; i < changes.length; i++) {
-            bytes.write.uint16(changes[i].id); // object id
-            bytes.write.uint16(changes[i].mesh.vertex.length); // vertex length
-            bytes.write.floatArray(new Float32Array(changes[i].mesh.vertex));
-        }*/
+        if (!changes.length) return;
 
+        // Send change that only on screen
         await this.broadcast(
             new Package_SyncChangeVertex(
-                changes.map((x) => {
-                    return {
-                        id: x.id,
-                        vertex: x.mesh.vertex,
-                    };
-                })
+                changes
+                    .filter((x) => x.isOnScreen)
+                    .map((x) => {
+                        return {
+                            id: x.id,
+                            vertex: x.mesh.vertex,
+                        };
+                    })
             )
         );
+
+        // Check if object on screen
+        this.scene.objectList.forEach((x) => {
+            x.checkOnScreen();
+        });
     }
 
     /*async sync() {

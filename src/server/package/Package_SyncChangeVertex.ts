@@ -31,7 +31,7 @@ export class Package_SyncChangeVertex extends Package_Base {
             list.push({
                 id,
                 // vertex: data.read.floatArray(8),
-                vertex: new Float32Array(Array.from(data.read.int16Array(8)).map((x) => x / 16384)),
+                vertex: new Float32Array(Array.from(data.read.int16Array(8)).map((x) => x / 4096)),
             });
         }
         return new Package_SyncChangeVertex(list);
@@ -52,7 +52,7 @@ export class Package_SyncChangeVertex extends Package_Base {
 
         this.changeList.forEach((x) => {
             this.data.write.uint16(x.id); // object id
-            this.data.write.int16Array(new Int16Array(x.vertex.map((y) => (y * 16384) | 0))); // vertex
+            this.data.write.int16Array(new Int16Array(x.vertex.map((y) => (y * 4096) | 0))); // vertex
             // this.data.write.floatArray(x.vertex); // vertex
         });
 

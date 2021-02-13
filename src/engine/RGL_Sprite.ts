@@ -40,6 +40,9 @@ export class RGL_Sprite extends RGL_Object {
         this.mesh.vertex[6] = -0.5 * raw[0] + 0.5 * raw[4] + raw[12];
         this.mesh.vertex[7] = -0.5 * raw[1] + 0.5 * raw[5] + raw[13];
 
+        this.mesh.center.x = raw[12];
+        this.mesh.center.y = raw[13];
+
         // Check changes
         this.checkChange();
     }

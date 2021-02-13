@@ -23,6 +23,7 @@ export class RGL_Object {
     isDeleted = false;
     isChanged = false;
     isMouseOver = false;
+    isOnScreen = true;
 
     // Data
     matrix: Matrix2D = new Matrix2D();
@@ -32,7 +33,11 @@ export class RGL_Object {
     isUseTextureSize = false;
 
     // Cache
-    oldParams = { x: 0, y: 0, rotation: 0, scaleX: 0, scaleY: 0 };
+    previousVertex: Float32Array;
+
+    constructor() {
+        this.previousVertex = new Float32Array(this.mesh.vertex);
+    }
 
     // Events
     private _eventList: { [x: string]: ((obj: RGL_Object, ...data: unknown[]) => void)[] } = {};
@@ -42,21 +47,38 @@ export class RGL_Object {
     checkChange() {
         this.isChanged = false;
 
+        for (let i = 0; i < this.previousVertex.length; i++) {
+            if (this.previousVertex[i] !== this.mesh.vertex[i]) {
+                this.isChanged = true;
+            }
+            this.previousVertex[i] = this.mesh.vertex[i];
+        }
+    }
+
+    checkOnScreen() {
+        this.isOnScreen = false;
+
         if (
-            this.oldParams.x !== this.x ||
-            this.oldParams.y !== this.y ||
-            this.oldParams.rotation !== this.rotation ||
-            this.oldParams.scaleX !== this.scaleX ||
-            this.oldParams.scaleY !== this.scaleY
+            this.mesh.center.x >= -1 &&
+            this.mesh.center.x <= 1 &&
+            this.mesh.center.y >= -1 &&
+            this.mesh.center.y <= 1
         ) {
-            this.isChanged = true;
+            this.isOnScreen = true;
+            return;
         }
 
-        this.oldParams.x = this.x;
-        this.oldParams.y = this.y;
-        this.oldParams.rotation = this.rotation;
-        this.oldParams.scaleX = this.scaleX;
-        this.oldParams.scaleY = this.scaleY;
+        for (let i = 0; i < this.mesh.vertex.length; i += 2) {
+            if (
+                this.mesh.vertex[i] >= -1 &&
+                this.mesh.vertex[i] <= 1 &&
+                this.mesh.vertex[i + 1] >= -1 &&
+                this.mesh.vertex[i + 1] <= 1
+            ) {
+                this.isOnScreen = true;
+                break;
+            }
+        }
     }
 
     on(event: string, callback: (obj: RGL_Object) => void) {

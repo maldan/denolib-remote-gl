@@ -6,6 +6,8 @@ import { Package_Init } from "./package/Package_Init.ts";
 
 import {
     // deno-lint-ignore camelcase
+    Package_ResizeScreen,
+    // deno-lint-ignore camelcase
     Package_UserEventKeyDown,
     // deno-lint-ignore camelcase
     Package_UserEventKeyUp,
@@ -88,6 +90,11 @@ export class RGL_Server {
                     // User up key
                     if (p instanceof Package_UserEventKeyUp) {
                         this.session.input.keys[p.keyCode] = false;
+                    }
+                    // User up key
+                    if (p instanceof Package_ResizeScreen) {
+                        this.session.scene.camera.width = p.width;
+                        this.session.scene.camera.height = p.height;
                     }
                 } else if (WebSocket.isWebSocketCloseEvent(ev)) {
                     this.session.removeClient(sock);

@@ -1,22 +1,33 @@
 import { ByteSet } from "../../client.deps.ts";
+
 // deno-lint-ignore camelcase
 import { Package_Init } from "./package/Package_Init.ts";
 export { Package_Init } from "./package/Package_Init.ts";
+
+// deno-lint-ignore camelcase
+import { Package_ResizeScreen } from "./package/Package_ResizeScreen.ts";
+export { Package_ResizeScreen } from "./package/Package_ResizeScreen.ts";
+
 // deno-lint-ignore camelcase
 import { Package_SyncAdd } from "./package/Package_SyncAdd.ts";
 export { Package_SyncAdd } from "./package/Package_SyncAdd.ts";
+
 // deno-lint-ignore camelcase
 import { Package_SyncChangeVertex } from "./package/Package_SyncChangeVertex.ts";
 export { Package_SyncChangeVertex } from "./package/Package_SyncChangeVertex.ts";
+
 // deno-lint-ignore camelcase
 import { Package_SyncDelete } from "./package/Package_SyncDelete.ts";
 export { Package_SyncDelete } from "./package/Package_SyncDelete.ts";
+
 // deno-lint-ignore camelcase
 import { Package_SyncObjectList } from "./package/Package_SyncObjectList.ts";
 export { Package_SyncObjectList } from "./package/Package_SyncObjectList.ts";
+
 // deno-lint-ignore camelcase
 import { Package_SyncShaderList } from "./package/Package_SyncShaderList.ts";
 export { Package_SyncShaderList } from "./package/Package_SyncShaderList.ts";
+
 // deno-lint-ignore camelcase
 import { Package_UserEventKeyDown } from "./package/Package_UserEventKeyDown.ts";
 export { Package_UserEventKeyDown } from "./package/Package_UserEventKeyDown.ts";
@@ -30,6 +41,7 @@ export enum RGL_PackageType {
     // Base
     None = 0,
     Init = 1,
+    ResizeScreen = 2,
 
     // Server sync object & object params
     SyncShaderList = 10,
@@ -73,6 +85,8 @@ export function RGL_ParsePackage(data: Uint8Array) {
             return Package_UserEventKeyDown.from(bytes);
         case RGL_PackageType.UserEventKeyUp:
             return Package_UserEventKeyUp.from(bytes);
+        case RGL_PackageType.ResizeScreen:
+            return Package_ResizeScreen.from(bytes);
         default:
             throw new Error(`Unknown package type ${packageType}`);
     }

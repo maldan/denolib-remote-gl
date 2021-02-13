@@ -4,6 +4,7 @@ export class RGL_Mesh {
     vertex: Float32Array = new Float32Array([-0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5]);
     uv: Float32Array = new Float32Array([0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0]);
     tint: number[] = [1, 1, 1];
+    center: { x: number; y: number } = { x: 0, y: 0 };
 
     isPointInsideMesh({ x, y }: { x: number; y: number }) {
         var inside = false;

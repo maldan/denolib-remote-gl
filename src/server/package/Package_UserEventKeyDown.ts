@@ -19,14 +19,14 @@ export class Package_UserEventKeyDown extends Package_Base {
     }
 
     static from(data: ByteSet): Package_UserEventKeyDown {
-        return new Package_UserEventKeyDown(data.read.string(), data.read.uint8());
+        return new Package_UserEventKeyDown(data.read.string(), data.read.uint16());
     }
 
     pack(): Uint8Array {
-        this.data = new ByteSet(1 + 4 + this.code.length + 1);
+        this.data = new ByteSet(1 + 4 + new TextEncoder().encode(this.code).length + 2);
         this.data.write.uint8(this.type); // package type
         this.data.write.string(this.code);
-        this.data.write.uint8(this.keyCode);
+        this.data.write.uint16(this.keyCode);
         return this.buffer;
     }
 }

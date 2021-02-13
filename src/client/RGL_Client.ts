@@ -19,6 +19,8 @@ import { Package_Init } from "../server/package/Package_Init.ts";
 
 import {
     // deno-lint-ignore camelcase
+    Package_ResizeScreen,
+    // deno-lint-ignore camelcase
     Package_SyncDelete,
     // deno-lint-ignore camelcase
     Package_UserEventKeyDown,
@@ -80,13 +82,6 @@ export class RGL_Client {
         this.initSocket();
         this.initEvents();
 
-        // Request sync
-        /*setInterval(() => {
-            this.send({
-                type: "sync",
-            });
-        }, 1000 / 60);*/
-
         // Draw scene
         setInterval(() => {
             this._render.draw();
@@ -99,12 +94,12 @@ export class RGL_Client {
     }
 
     initEvents() {
-        /*document.addEventListener("keydown", (e: KeyboardEvent) => {
+        document.addEventListener("keydown", (e: KeyboardEvent) => {
             this.sendPackage(new Package_UserEventKeyDown(e.key, e.keyCode));
         });
         document.addEventListener("keyup", (e: KeyboardEvent) => {
             this.sendPackage(new Package_UserEventKeyUp(e.key, e.keyCode));
-        });*/
+        });
         /*document.addEventListener("mousemove", (e: MouseEvent) => {
             this.send({
                 type: "mousemove",
@@ -164,6 +159,7 @@ export class RGL_Client {
             this._isConnected = true;
             console.log("Connected");
             this.sendPackage(new Package_Init());
+            this.sendPackage(new Package_ResizeScreen(window.innerWidth, window.innerHeight));
         };
         this._ws.onclose = () => {
             this._isConnected = false;
@@ -191,7 +187,7 @@ export class RGL_Client {
 
                 // Init object list
                 if (p instanceof Package_SyncObjectList) {
-                    p.objectList.length = 0;
+                    this._render.objectList.length = 0;
                     p.objectList.forEach((x) => {
                         const exists = this._render.objectList.find((y) => y.id === x.id);
                         if (!exists) {
@@ -250,6 +246,8 @@ export class RGL_Client {
                             obj.updateVertex(x.vertex, true);
                         }
                     });
+                } else {
+                    console.log(p);
                 }
             }
 
