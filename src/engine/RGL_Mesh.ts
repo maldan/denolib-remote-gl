@@ -1,8 +1,8 @@
 // deno-lint-ignore camelcase
 export class RGL_Mesh {
-    index: number[] = [0, 1, 2, 0, 2, 3];
-    vertex: number[] = [-0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5];
-    uv: number[] = [0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0];
+    index: Uint8Array = new Uint8Array([0, 1, 2, 0, 2, 3]);
+    vertex: Float32Array = new Float32Array([-0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5]);
+    uv: Float32Array = new Float32Array([0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0]);
     tint: number[] = [1, 1, 1];
 
     isPointInsideMesh({ x, y }: { x: number; y: number }) {

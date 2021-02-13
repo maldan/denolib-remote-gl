@@ -21,6 +21,7 @@ export class RGL_Shader {
 
         void main() {
             gl_FragColor = texture2D(uTexture, vUV) * vec4(uTint, 1.0);
+            // gl_FragColor = vec4(uTint, 1.0);
         }
     `;
 

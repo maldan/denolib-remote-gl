@@ -1,3 +1,6 @@
+import { Matrix2D } from "../../client.deps.ts";
+// deno-lint-ignore camelcase
+import { RGL_Mesh } from "../engine/RGL_Mesh.ts";
 // deno-lint-ignore camelcase
 import { RGL_Texture } from "./RGL_Texture.ts";
 
@@ -9,7 +12,8 @@ export class RGL_ClientObject {
     shaderId = 0;
     id = 0;
     tint: number[] = [1, 1, 1];
-    texture!: RGL_Texture;
+    textureUrl = "";
+    // texture!: RGL_Texture;
 
     private _gl!: WebGLRenderingContext;
     private _vertexCurrent: Float32Array = new Float32Array();
@@ -22,16 +26,16 @@ export class RGL_ClientObject {
             shaderId,
             vertex,
             index,
-            tint,
+            //tint,
             uv,
             textureUrl,
         }: {
             id: number;
             shaderId: number;
-            vertex: number[];
-            tint: number[];
-            index: number[];
-            uv: number[];
+            vertex: Float32Array;
+            //tint: number[];
+            index: Uint8Array;
+            uv: Float32Array;
             textureUrl: string;
         }
     ) {
@@ -45,16 +49,17 @@ export class RGL_ClientObject {
         this.vertex = this._gl.createBuffer() as WebGLBuffer;
         this.index = this._gl.createBuffer() as WebGLBuffer;
         this.uv = this._gl.createBuffer() as WebGLBuffer;
-        this.tint = tint;
+        this.tint = [1, 1, 1]; //tint;
+        this.textureUrl = textureUrl;
 
-        if (textureUrl) {
+        /*if (textureUrl) {
             this.texture = new RGL_Texture(gl, textureUrl);
             this.texture.load();
-        }
+        }*/
 
         // Update vertex
-        this.updateVertex(new Float32Array(vertex), true);
-        this.updateUv(new Float32Array(uv));
+        this.updateVertex(vertex, true);
+        this.updateUv(uv);
         this.updateIndex(new Uint16Array(index));
     }
 

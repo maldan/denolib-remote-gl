@@ -8,9 +8,13 @@ import { RGL_Object } from "./RGL_Object.ts";
 // deno-lint-ignore camelcase
 export class RGL_Scene {
     readonly camera: RGL_Camera = new RGL_Camera();
-    readonly objectList: RGL_Object[] = [];
+    objectList: RGL_Object[] = [];
+
     private _session: RGL_Session;
     private _index = 0;
+
+    added: number[] = [];
+    deleted: number[] = [];
 
     constructor(session: RGL_Session) {
         this._session = session;
@@ -19,6 +23,16 @@ export class RGL_Scene {
     add(obj: RGL_Object) {
         obj.id = this._index++;
         this.objectList.push(obj);
+        this.added.push(obj.id);
+    }
+
+    delete(obj: RGL_Object) {
+        obj.isDeleted = true;
+        this.deleted.push(obj.id);
+    }
+
+    clearDeleted() {
+        this.objectList = this.objectList.filter((x) => !x.isDeleted);
     }
 
     update() {

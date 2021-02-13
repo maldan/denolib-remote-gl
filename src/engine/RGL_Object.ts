@@ -20,6 +20,7 @@ export class RGL_Object {
     rotation = 0;
 
     // State
+    isDeleted = false;
     isChanged = false;
     isMouseOver = false;
 

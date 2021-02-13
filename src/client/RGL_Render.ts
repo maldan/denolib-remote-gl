@@ -4,10 +4,13 @@ import { RGL_Client } from "./RGL_Client.ts";
 import { RGL_ClientObject } from "./RGL_ClientObject.ts";
 // deno-lint-ignore camelcase
 import { RGL_Material } from "./RGL_Material.ts";
+// deno-lint-ignore camelcase
+import { RGL_Texture } from "./RGL_Texture.ts";
 
 // deno-lint-ignore camelcase
 export class RGL_Render {
     material: RGL_Material[] = [];
+    texture: { [x: string]: RGL_Texture } = {};
     objectList: RGL_ClientObject[] = [];
 
     private _gl!: WebGLRenderingContext;
@@ -38,9 +41,9 @@ export class RGL_Render {
             gl.useProgram(material.program);
 
             // Bind texture
-            if (obj.texture && obj.texture.texture) {
+            if (this.texture[obj.textureUrl] && this.texture[obj.textureUrl].texture) {
                 gl.activeTexture(gl.TEXTURE0);
-                gl.bindTexture(gl.TEXTURE_2D, obj.texture.texture);
+                gl.bindTexture(gl.TEXTURE_2D, this.texture[obj.textureUrl].texture);
                 gl.uniform1i(material.uniform["uTexture"], 0);
             }
 
