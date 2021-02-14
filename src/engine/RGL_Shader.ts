@@ -20,7 +20,10 @@ export class RGL_Shader {
         uniform sampler2D uTexture;
 
         void main() {
-            gl_FragColor = texture2D(uTexture, vUV) * vec4(uTint, 1.0);
+            vec4 color = texture2D(uTexture, vUV);
+            //if (color.a < 0.05) discard;
+
+            gl_FragColor = color;
             // gl_FragColor = vec4(uTint, 1.0);
         }
     `;

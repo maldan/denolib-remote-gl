@@ -22,6 +22,8 @@ export class RGL_Object {
     // State
     isDeleted = false;
     isChanged = false;
+    isVertexChanged = false;
+    isUvChanged = false;
     isMouseOver = false;
     isOnScreen = true;
 
@@ -34,9 +36,11 @@ export class RGL_Object {
 
     // Cache
     previousVertex: Float32Array;
+    previousUv: Float32Array;
 
     constructor() {
         this.previousVertex = new Float32Array(this.mesh.vertex);
+        this.previousUv = new Float32Array(this.mesh.uv);
     }
 
     // Events
@@ -50,8 +54,17 @@ export class RGL_Object {
         for (let i = 0; i < this.previousVertex.length; i++) {
             if (this.previousVertex[i] !== this.mesh.vertex[i]) {
                 this.isChanged = true;
+                this.isVertexChanged = true;
             }
             this.previousVertex[i] = this.mesh.vertex[i];
+        }
+
+        for (let i = 0; i < this.previousUv.length; i++) {
+            if (this.previousUv[i] !== this.mesh.uv[i]) {
+                this.isChanged = true;
+                this.isUvChanged = true;
+            }
+            this.previousUv[i] = this.mesh.uv[i];
         }
     }
 

@@ -1,4 +1,14 @@
 // deno-lint-ignore camelcase
+export type Type_TextureCropArea = {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+    textureWidth: number;
+    textureHeight: number;
+};
+
+// deno-lint-ignore camelcase
 export class RGL_Mesh {
     index: Uint8Array = new Uint8Array([0, 1, 2, 0, 2, 3]);
     vertex: Float32Array = new Float32Array([-0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5]);
@@ -28,5 +38,18 @@ export class RGL_Mesh {
         }
 
         return inside;
+    }
+
+    cropUV({ textureWidth, textureHeight, x, y, width, height }: Type_TextureCropArea) {
+        this.uv = new Float32Array([
+            x / textureWidth,
+            1 - (y + height) / textureHeight,
+            (x + width) / textureWidth,
+            1 - (y + height) / textureHeight,
+            (x + width) / textureWidth,
+            1 - y / textureHeight,
+            x / textureWidth,
+            1 - y / textureHeight,
+        ]);
     }
 }
