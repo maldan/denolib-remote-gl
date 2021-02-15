@@ -1,19 +1,29 @@
+import { Matrix2D } from "../../../geom/mod.ts";
+// deno-lint-ignore camelcase
+import { RGL_Camera } from "./RGL_Camera.ts";
 // deno-lint-ignore camelcase
 import { RGL_Object } from "./RGL_Object.ts";
+// deno-lint-ignore camelcase
+import { RGL_Scene } from "./RGL_Scene.ts";
 
 // deno-lint-ignore camelcase
-export class RGL_Container {
-    objectList: RGL_Object[] = [];
+export class RGL_Container extends RGL_Object {
+    isDrawable = false;
 
-    add(object: RGL_Object) {
-        this.objectList.push(object);
-    }
+    update(parent: Matrix2D) {
+        // Calculate matrix
+        this.matrix.identity();
+        this.matrix.concat(parent);
+        this.matrix.translate(this.x, this.y, 0.1);
+        this.matrix.rotate(-this.rotation);
+        this.matrix.scale(this.scaleX, this.scaleY, 1);
 
-    delete(object: RGL_Object) {
-        const index = this.objectList.indexOf(object);
-        if (index !== -1) {
-            object.isDeleted = true;
-            this.objectList.splice(index, 1);
+        this.isChanged = false;
+        for (let i = 0; i < this.objectList.length; i++) {
+            this.objectList[i].update(this.matrix);
+            if (this.objectList[i].isChanged) {
+                this.isChanged = true;
+            }
         }
     }
 }

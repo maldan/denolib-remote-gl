@@ -65,7 +65,7 @@ export class RGL_Client {
         canvas.setAttribute("height", window.innerHeight + "");
 
         // Initialize the GL context
-        const gl = canvas.getContext("webgl", { antialias: false });
+        const gl = canvas.getContext("webgl", { antialias: true });
 
         // Only continue if WebGL is available and working
         if (gl === null) {

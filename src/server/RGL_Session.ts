@@ -52,12 +52,12 @@ export class RGL_Session {
     async syncShaderList() {
         // Get all shaders
         const shaders: RGL_Shader[] = [];
-        for (let i = 0; i < this.scene.objectList.length; i++) {
-            const obj = this.scene.objectList[i];
-            if (!shaders.find((x) => x.id === obj.shader.id)) {
+        const objectList = this.scene.drawableObjects;
+        objectList.forEach((obj) => {
+            if (!shaders.find((y) => y.id === obj.shader.id)) {
                 shaders.push(obj.shader);
             }
-        }
+        });
 
         await this.broadcast(new Package_SyncShaderList(shaders));
     }
@@ -79,7 +79,7 @@ export class RGL_Session {
         }*/
         await this.broadcast(
             new Package_SyncObjectList(
-                this.scene.objectList.map((x) => {
+                this.scene.drawableObjects.map((x) => {
                     return {
                         id: x.id,
                         shaderId: x.shader.id,
@@ -101,7 +101,7 @@ export class RGL_Session {
         await this.broadcast(
             new Package_SyncAdd(
                 this.scene.added.map((y) => {
-                    const x = this.scene.objectList.find((x) => x.id === y);
+                    const x = this.scene.drawableObjects.find((x) => x.id === y);
                     if (!x) throw new Error(`Object not exists!`);
                     return {
                         id: x.id,
@@ -129,7 +129,7 @@ export class RGL_Session {
 
     async syncChangeList() {
         // Get only changed objects
-        const changes = this.scene.getChangedObjects();
+        const changes = this.scene.changedObjects;
 
         if (!changes.length) return;
 

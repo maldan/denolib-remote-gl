@@ -1,4 +1,5 @@
 export * from "./src/engine/RGL_Object.ts";
+export * from "./src/engine/RGL_Container.ts";
 export * from "./src/engine/RGL_Mesh.ts";
 export * from "./src/engine/RGL_Sprite.ts";
 export * from "./src/engine/RGL_Glyph.ts";

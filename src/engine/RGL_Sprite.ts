@@ -1,4 +1,5 @@
 // deno-lint-ignore-file
+import { Matrix2D } from "../../../geom/mod.ts";
 import { RGL_Camera } from "./RGL_Camera.ts";
 import { RGL_Object } from "./RGL_Object.ts";
 
@@ -20,12 +21,12 @@ export class RGL_Sprite extends RGL_Object {
         }
     }
 
-    update(camera: RGL_Camera) {
+    update(parent: Matrix2D) {
         const raw = this.matrix.matrix;
 
         // Calculate matrix
         this.matrix.identity();
-        this.matrix.concat(camera.matrix);
+        this.matrix.concat(parent);
         this.matrix.translate(this.x, this.y, this.zIndex);
         this.matrix.rotate(-this.rotation);
         this.matrix.scale(this.width * this.scaleX, this.height * this.scaleY, 1);

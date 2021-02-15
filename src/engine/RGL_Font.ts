@@ -5,6 +5,7 @@ import { Type_TextureCropArea } from "./RGL_Mesh.ts";
 // deno-lint-ignore camelcase
 export type Type_GlyphInfo = {
     unicode: number;
+    advance: number;
     planeBounds: {
         left: number;
         right: number;

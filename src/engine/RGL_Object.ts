@@ -26,6 +26,7 @@ export class RGL_Object {
     isUvChanged = false;
     isMouseOver = false;
     isOnScreen = true;
+    isDrawable = true;
 
     // Data
     matrix: Matrix2D = new Matrix2D();
@@ -33,6 +34,9 @@ export class RGL_Object {
     shader: RGL_Shader = new RGL_Shader();
     textureUrl = "";
     isUseTextureSize = false;
+
+    // Container
+    objectList: RGL_Object[] = [];
 
     // Cache
     previousVertex: Float32Array;
@@ -46,7 +50,13 @@ export class RGL_Object {
     // Events
     private _eventList: { [x: string]: ((obj: RGL_Object, ...data: unknown[]) => void)[] } = {};
 
-    update(camera: RGL_Camera) {}
+    add(object: RGL_Object) {
+        this.objectList.push(object);
+    }
+
+    delete(object: RGL_Object) {}
+
+    update(parent: Matrix2D) {}
 
     checkChange() {
         this.isChanged = false;
@@ -109,5 +119,9 @@ export class RGL_Object {
         this._eventList[event].forEach((x) => {
             x(this, ...data);
         });
+    }
+
+    get drawableObjects() {
+        return this.objectList.filter((x) => x.isChanged);
     }
 }

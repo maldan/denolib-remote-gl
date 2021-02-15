@@ -1,4 +1,6 @@
 // deno-lint-ignore camelcase
+import { RGL_Container } from "../../mod.ts";
+// deno-lint-ignore camelcase
 import { RGL_Session } from "../server/RGL_Session.ts";
 // deno-lint-ignore camelcase
 import { RGL_Camera } from "./RGL_Camera.ts";
@@ -21,14 +23,18 @@ export class RGL_Scene {
     }
 
     add(obj: RGL_Object) {
-        obj.id = this._index++;
-        this.objectList.push(obj);
-        this.added.push(obj.id);
+        if (obj instanceof RGL_Object) {
+            obj.id = this._index++;
+            this.objectList.push(obj);
+            this.added.push(obj.id);
+        }
     }
 
     delete(obj: RGL_Object) {
-        obj.isDeleted = true;
-        this.deleted.push(obj.id);
+        if (obj instanceof RGL_Object) {
+            obj.isDeleted = true;
+            this.deleted.push(obj.id);
+        }
     }
 
     clearDeleted() {
@@ -45,7 +51,7 @@ export class RGL_Scene {
         // Update each object
         for (let i = 0; i < this.objectList.length; i++) {
             const obj = this.objectList[i];
-            obj.update(this.camera);
+            obj.update(this.camera.matrix);
         }
     }
 
@@ -53,6 +59,7 @@ export class RGL_Scene {
         if (event === "mouseover") {
             for (let i = 0; i < this.objectList.length; i++) {
                 const obj = this.objectList[i];
+
                 const pos = this.camera.toWorldPosition(this._session.input.cursor);
 
                 if (!obj.isMouseOver && obj.mesh.isPointInsideMesh(pos)) {
@@ -66,7 +73,16 @@ export class RGL_Scene {
         }
     }
 
-    getChangedObjects() {
-        return this.objectList.filter((x) => x.isChanged);
+    get drawableObjects() {
+        const out = [];
+        for (let i = 0; i < this.objectList.length; i++) {
+            out.push(this.objectList[i]);
+        }
+        return out;
+        // return this.objectList.filter((x) => !(x instanceof RGL_Container));
+    }
+
+    get changedObjects() {
+        return this.objectList.filter((x) => !(x instanceof RGL_Container) && x.isChanged);
     }
 }

@@ -7,6 +7,7 @@ export class RGL_Camera {
     width = 0;
     height = 0;
     zoom = 1;
+    rotation = 0;
     x = 0;
     y = 0;
     z = 0;
@@ -19,7 +20,9 @@ export class RGL_Camera {
 
         this.matrix.identity();
         this.matrix.translate(this.x * totalWidth, this.y * totalHeight, this.z);
+
         this.matrix.scale(totalWidth, totalHeight, 0.01);
+        this.matrix.rotate(-this.rotation);
     }
 
     toWorldPosition({ x, y }: { x: number; y: number }): { x: number; y: number } {

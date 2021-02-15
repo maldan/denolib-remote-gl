@@ -26,6 +26,8 @@ export class RGL_Render {
         gl.clearDepth(1.0);
         gl.enable(gl.DEPTH_TEST);
         gl.enable(gl.BLEND);
+        gl.enable(gl.SAMPLE_COVERAGE);
+        gl.sampleCoverage(0.9, false);
         gl.blendFuncSeparate(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
 
         gl.depthFunc(gl.LEQUAL);

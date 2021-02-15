@@ -98,8 +98,6 @@ export class RGL_Server {
                     }
                 } else if (WebSocket.isWebSocketCloseEvent(ev)) {
                     this.session.removeClient(sock);
-                    const { code, reason } = ev;
-                    console.log("ws:Close", code, reason);
                 }
             }
         } catch (err) {
