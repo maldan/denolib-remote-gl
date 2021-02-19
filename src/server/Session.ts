@@ -4,7 +4,7 @@ import { RGL } from "../../mod.ts";
 export class Session {
     readonly scene: RGL.Engine.Scene;
     private _clientList: Set<WebSocket.WebSocket> = new Set();
-    //readonly input: Server.Input = new Server.Input();
+    readonly input: RGL.Server.Input = new RGL.Server.Input();
 
     constructor() {
         this.scene = new RGL.Engine.Scene(this);

@@ -1,5 +1,5 @@
-import { ByteSet } from "../../deps.ts";
-import { RGL } from "../../mod.ts";
+import { ByteSet } from "../../../deps.ts";
+import { RGL } from "../../../mod.ts";
 
 export class Init extends RGL.Package.Base {
     constructor() {

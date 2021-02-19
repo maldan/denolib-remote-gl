@@ -1,5 +1,5 @@
-import { ByteSet } from "../../deps.ts";
-import { RGL } from "../../mod.ts";
+import { ByteSet } from "../../../deps.ts";
+import { RGL } from "../../../mod.ts";
 
 export class SyncDelete extends RGL.Package.Base {
     objectList: number[] = [];
@@ -10,7 +10,7 @@ export class SyncDelete extends RGL.Package.Base {
         this.objectList = objectList;
     }
 
-    static from(data: ByteSet): SyncDelete {
+    /*static from(data: ByteSet): SyncDelete {
         const list = [];
         const amount = data.read.uint16();
 
@@ -19,7 +19,7 @@ export class SyncDelete extends RGL.Package.Base {
         }
 
         return new SyncDelete(list);
-    }
+    }*/
 
     pack(): Uint8Array {
         let totalLength = 1 + 2; // type + amount

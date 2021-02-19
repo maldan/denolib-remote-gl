@@ -1,13 +1,19 @@
-export { UserEventKeyUp } from "./UserEventKeyUp.ts";
-export { UserEventKeyDown } from "./UserEventKeyDown.ts";
-export { SyncShaderList } from "./SyncShaderList.ts";
-export { SyncObjectList } from "./SyncObjectList.ts";
-export { SyncDelete } from "./SyncDelete.ts";
-export { SyncChangeVertex } from "./SyncChangeVertex.ts";
-export { SyncAdd } from "./SyncAdd.ts";
-export { ResizeScreen } from "./ResizeScreen.ts";
-export { Init } from "./Init.ts";
 export { Base } from "./Base.ts";
+
+// Receive
+export { Init } from "./receive/Init.ts";
+export { UserEventKeyUp } from "./receive/UserEventKeyUp.ts";
+export { UserEventKeyDown } from "./receive/UserEventKeyDown.ts";
+export { ResizeScreen } from "./receive/ResizeScreen.ts";
+
+// Send
+export { SyncShaderList } from "./send/SyncShaderList.ts";
+export { SyncObjectList } from "./send/SyncObjectList.ts";
+export { SyncDelete } from "./send/SyncDelete.ts";
+export { SyncChangeVertex } from "./send/SyncChangeVertex.ts";
+export { SyncAdd } from "./send/SyncAdd.ts";
+
+// Parse packages
 export { parse } from "./Package.ts";
 
 export enum Type {

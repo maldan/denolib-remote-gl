@@ -1,5 +1,5 @@
-import { ByteSet, LengthType } from "../../deps.ts";
-import { RGL } from "../../mod.ts";
+import { ByteSet, LengthType } from "../../../deps.ts";
+import { RGL } from "../../../mod.ts";
 
 export class SyncShaderList extends RGL.Package.Base {
     shaderList: RGL.Engine.Shader[];
@@ -10,7 +10,7 @@ export class SyncShaderList extends RGL.Package.Base {
         this.shaderList = shaderList;
     }
 
-    static from(data: ByteSet): SyncShaderList {
+    /*static from(data: ByteSet): SyncShaderList {
         const list = [];
         const amount = data.read.uint8();
 
@@ -24,7 +24,7 @@ export class SyncShaderList extends RGL.Package.Base {
             );
         }
         return new SyncShaderList(list);
-    }
+    }*/
 
     pack(): Uint8Array {
         let totalLength = 1 + 1; // type + amount

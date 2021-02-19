@@ -1,5 +1,5 @@
-import { ByteSet, LengthType } from "../../deps.ts";
-import { RGL } from "../../mod.ts";
+import { ByteSet, LengthType } from "../../../deps.ts";
+import { RGL } from "../../../mod.ts";
 
 export class UserEventKeyUp extends RGL.Package.Base {
     code = "";

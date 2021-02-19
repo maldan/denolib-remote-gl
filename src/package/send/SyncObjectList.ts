@@ -1,5 +1,5 @@
-import { ByteSet } from "../../deps.ts";
-import { RGL } from "../../mod.ts";
+import { ByteSet } from "../../../deps.ts";
+import { RGL } from "../../../mod.ts";
 
 // deno-lint-ignore camelcase
 export type Type_ObjectInfo = {
@@ -20,7 +20,7 @@ export class SyncObjectList extends RGL.Package.Base {
         this.objectList = objectList;
     }
 
-    static from(data: ByteSet): SyncObjectList {
+    /*static from(data: ByteSet): SyncObjectList {
         const list = [];
         const amount = data.read.uint16();
 
@@ -36,7 +36,7 @@ export class SyncObjectList extends RGL.Package.Base {
         }
 
         return new SyncObjectList(list);
-    }
+    }*/
 
     pack(): Uint8Array {
         let totalLength = 1 + 2; // type + amount
