@@ -1,4 +1,4 @@
-import { WebSocket, Http } from "../../server.deps.ts";
+import { WebSocket, Http } from "../../deps.ts";
 
 import { RGL } from "../../mod.ts";
 

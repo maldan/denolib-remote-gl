@@ -1,3 +1,5 @@
+import { RGL } from "../../mod.ts";
+
 export class NetworkObject {
     id = 0;
     shaderId = 0;
@@ -6,5 +8,12 @@ export class NetworkObject {
     vertex!: Float32Array;
     uv!: Float32Array;
 
-    // constructor(obj: RGL_Object) {}
+    constructor(obj: RGL.Engine.RenderObject) {
+        this.id = obj.id;
+        this.shaderId = obj.shaderId;
+        this.textureId = obj.textureId;
+        this.index = obj.mesh.index;
+        this.vertex = obj.mesh.vertex;
+        this.uv = obj.mesh.uv;
+    }
 }

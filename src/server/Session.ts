@@ -1,4 +1,4 @@
-import { ByteSet, WebSocket } from "../../server.deps.ts";
+import { ByteSet, WebSocket } from "../../deps.ts";
 import { RGL } from "../../mod.ts";
 
 export class Session {

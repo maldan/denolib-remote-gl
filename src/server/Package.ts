@@ -1,4 +1,4 @@
-import { ByteSet } from "../../client.deps.ts";
+import { ByteSet } from "../../deps.ts";
 
 import { Base } from "./package/Base.ts";
 export { Base } from "./package/Base.ts";

@@ -1,5 +1,9 @@
 {
     "compilerOptions": {
-        "lib": ["ESNext", "dom"]
-    }
+        "lib": ["ESNext", "dom"],
+        "target": "ES2015"
+    },
+    "files": ["./src/client/Client.ts"],
+    "$schema": "https://json.schemastore.org/tsconfig",
+    "display": "Recommended"
 }

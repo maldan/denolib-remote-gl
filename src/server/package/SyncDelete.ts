@@ -1,4 +1,4 @@
-import { ByteSet, LengthType } from "../../../client.deps.ts";
+import { ByteSet, LengthType } from "../../../deps.ts";
 import { RGL } from "../../../mod.ts";
 
 export class SyncDelete extends RGL.Server.Package.Base {
