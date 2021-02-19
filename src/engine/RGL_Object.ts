@@ -2,6 +2,8 @@ import { Matrix2D } from "../../server.deps.ts";
 // deno-lint-ignore camelcase
 import { RGL_Camera } from "./RGL_Camera.ts";
 // deno-lint-ignore camelcase
+import { RGL_EventEmitter } from "./RGL_EventEmitter.ts";
+// deno-lint-ignore camelcase
 import { RGL_Mesh } from "./RGL_Mesh.ts";
 // deno-lint-ignore camelcase
 import { RGL_Shader } from "./RGL_Shader.ts";
@@ -42,13 +44,13 @@ export class RGL_Object {
     previousVertex: Float32Array;
     previousUv: Float32Array;
 
+    // Events
+    readonly event: RGL_EventEmitter<RGL_Object> = new RGL_EventEmitter<RGL_Object>(this);
+
     constructor() {
         this.previousVertex = new Float32Array(this.mesh.vertex);
         this.previousUv = new Float32Array(this.mesh.uv);
     }
-
-    // Events
-    private _eventList: { [x: string]: ((obj: RGL_Object, ...data: unknown[]) => void)[] } = {};
 
     add(object: RGL_Object) {
         this.objectList.push(object);
@@ -102,23 +104,6 @@ export class RGL_Object {
                 break;
             }
         }
-    }
-
-    on(event: string, callback: (obj: RGL_Object) => void) {
-        if (!this._eventList[event]) {
-            this._eventList[event] = [];
-        }
-        this._eventList[event].push(callback);
-    }
-
-    emit(event: string, ...data: unknown[]) {
-        if (!this._eventList[event]) {
-            return;
-        }
-
-        this._eventList[event].forEach((x) => {
-            x(this, ...data);
-        });
     }
 
     get drawableObjects() {

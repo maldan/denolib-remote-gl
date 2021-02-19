@@ -1,4 +1,4 @@
-import { ByteSet } from "../../../../bytearray/mod.ts";
+import { ByteSet, LengthType } from "../../../client.deps.ts";
 // deno-lint-ignore camelcase
 import { RGL_Shader } from "../../engine/RGL_Shader.ts";
 // deno-lint-ignore camelcase
@@ -35,8 +35,8 @@ export class Package_SyncObjectList extends Package_Base {
                 id: data.read.uint16(),
                 shaderId: data.read.uint8(),
                 index: data.read.uint8Array(6),
-                vertex: data.read.floatArray(8),
-                uv: data.read.floatArray(8),
+                vertex: data.read.float32Array(8),
+                uv: data.read.float32Array(8),
                 textureUrl: data.read.string(),
             });
         }
@@ -65,8 +65,8 @@ export class Package_SyncObjectList extends Package_Base {
             this.data.write.uint16(x.id); // object id
             this.data.write.uint8(x.shaderId); // shader id
             this.data.write.uint8Array(x.index); // index
-            this.data.write.floatArray(x.vertex); // vertex
-            this.data.write.floatArray(x.uv); // uv
+            this.data.write.float32Array(x.vertex); // vertex
+            this.data.write.float32Array(x.uv); // uv
             this.data.write.string(x.textureUrl); // texture url
         });
 

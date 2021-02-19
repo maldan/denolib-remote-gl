@@ -1,4 +1,4 @@
-import { ByteSet } from "../../../client.deps.ts";
+import { ByteSet, LengthType } from "../../../client.deps.ts";
 // deno-lint-ignore camelcase
 import { RGL_PackageType } from "../RGL_Package.ts";
 

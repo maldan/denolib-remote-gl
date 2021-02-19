@@ -64,10 +64,10 @@ export class RGL_Scene {
 
                 if (!obj.isMouseOver && obj.mesh.isPointInsideMesh(pos)) {
                     obj.isMouseOver = true;
-                    obj.emit("mouseover");
+                    //obj.emit("mouseover");
                 } else if (obj.isMouseOver && !obj.mesh.isPointInsideMesh(pos)) {
                     obj.isMouseOver = false;
-                    obj.emit("mouseout");
+                    //obj.emit("mouseout");
                 }
             }
         }

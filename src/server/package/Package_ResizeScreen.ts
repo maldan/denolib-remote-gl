@@ -1,4 +1,4 @@
-import { ByteSet } from "../../../../bytearray/mod.ts";
+import { ByteSet, LengthType } from "../../../client.deps.ts";
 // deno-lint-ignore camelcase
 import { RGL_Shader } from "../../engine/RGL_Shader.ts";
 // deno-lint-ignore camelcase

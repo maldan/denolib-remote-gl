@@ -1,4 +1,4 @@
-import { ByteSet } from "../../../../bytearray/mod.ts";
+import { ByteSet, LengthType } from "../../../client.deps.ts";
 // deno-lint-ignore camelcase
 import { RGL_Shader } from "../../engine/RGL_Shader.ts";
 // deno-lint-ignore camelcase
@@ -24,8 +24,8 @@ export class Package_SyncShaderList extends Package_Base {
             list.push(
                 new RGL_Shader({
                     id: data.read.uint8(),
-                    vertex: data.read.string(),
-                    fragment: data.read.string(),
+                    vertex: data.read.string(LengthType.Uint16),
+                    fragment: data.read.string(LengthType.Uint16),
                 })
             );
         }
@@ -48,8 +48,8 @@ export class Package_SyncShaderList extends Package_Base {
 
         this.shaderList.forEach((x) => {
             this.data.write.uint8(x.id); // shader id
-            this.data.write.string(x.vertex); // vertex shader
-            this.data.write.string(x.fragment); // fragment shader
+            this.data.write.string(x.vertex, LengthType.Uint16); // vertex shader
+            this.data.write.string(x.fragment, LengthType.Uint16); // fragment shader
         });
 
         return this.buffer;
