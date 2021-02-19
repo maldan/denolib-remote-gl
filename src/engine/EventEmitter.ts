@@ -1,5 +1,4 @@
-// deno-lint-ignore camelcase
-export class RGL_EventEmitter<T> {
+export class EventEmitter<T> {
     // Events
     private _eventList: { [x: string]: ((obj: T, ...data: unknown[]) => void)[] } = {};
     private _target: T;

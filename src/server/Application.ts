@@ -1,27 +1,13 @@
 import { WebSocket, Http } from "../../server.deps.ts";
-// deno-lint-ignore camelcase
-import { RGL_EventEmitter } from "../engine/RGL_EventEmitter.ts";
-// deno-lint-ignore camelcase
-import { Package_Init } from "./package/Package_Init.ts";
 
-import {
-    // deno-lint-ignore camelcase
-    Package_ResizeScreen,
-    // deno-lint-ignore camelcase
-    Package_UserEventKeyDown,
-    // deno-lint-ignore camelcase
-    Package_UserEventKeyUp,
-    // deno-lint-ignore camelcase
-    RGL_ParsePackage,
-} from "./RGL_Package.ts";
-// deno-lint-ignore camelcase
-import { RGL_Session } from "./RGL_Session.ts";
+import { RGL } from "../../mod.ts";
 
-// deno-lint-ignore camelcase
-export class RGL_Server {
-    readonly session = new RGL_Session();
+export class Application {
+    readonly session = new RGL.Server.Session();
 
-    readonly event: RGL_EventEmitter<RGL_Session> = new RGL_EventEmitter(this.session);
+    readonly event: RGL.Engine.EventEmitter<RGL.Server.Session> = new RGL.Engine.EventEmitter(
+        this.session
+    );
 
     async handleWs(sock: WebSocket.WebSocket) {
         // Create session
@@ -75,27 +61,27 @@ export class RGL_Server {
                     }
                 }*/
                 if (ev instanceof Uint8Array) {
-                    const p = RGL_ParsePackage(ev);
+                    const p = RGL.Server.Package.parse(ev);
 
                     // Client connected and request init data
-                    if (p instanceof Package_Init) {
+                    /*if (p instanceof RGL.Server.Package.Init) {
                         await this.session.syncShaderList();
                         await this.session.syncObjectList();
                     }
 
                     // User down key
-                    if (p instanceof Package_UserEventKeyDown) {
+                    if (p instanceof RGL.Server.Package.UserEventKeyDown) {
                         this.session.input.keys[p.keyCode] = true;
                     }
                     // User up key
-                    if (p instanceof Package_UserEventKeyUp) {
+                    if (p instanceof RGL.Server.Package.UserEventKeyUp) {
                         this.session.input.keys[p.keyCode] = false;
                     }
                     // User up key
-                    if (p instanceof Package_ResizeScreen) {
+                    if (p instanceof RGL.Server.Package.ResizeScreen) {
                         this.session.scene.camera.width = p.width;
                         this.session.scene.camera.height = p.height;
-                    }
+                    }*/
                 } else if (WebSocket.isWebSocketCloseEvent(ev)) {
                     this.session.removeClient(sock);
                 }
@@ -115,16 +101,6 @@ export class RGL_Server {
      */
     async init(port: number) {
         // Update cycle
-        let f = 0;
-        setInterval(async () => {
-            this.event.emit("update");
-            if (f++ > 0) {
-                f = 0;
-                await this.session.syncAdded();
-                await this.session.syncDeleted();
-                await this.session.syncChangeList();
-            }
-        }, 1000 / 60);
 
         for await (const req of Http.serve(`:${port}`)) {
             const { conn, r: bufReader, w: bufWriter, headers } = req;
@@ -140,7 +116,7 @@ export class RGL_Server {
 
     async compileClientTo(path: string) {
         const root = import.meta.url
-            .replace("src/server/RGL_Server.ts", "")
+            .replace("src/server/Application.ts", "")
             .replace("file:///", "");
         console.log(`Client compilation...`);
         const cmd = Deno.run({

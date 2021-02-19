@@ -1,33 +1,13 @@
 import { ByteSet, WebSocket } from "../../server.deps.ts";
-// deno-lint-ignore camelcase
-import { RGL_Object } from "./../engine/RGL_Object.ts";
-// deno-lint-ignore camelcase
-import { RGL_Scene } from "./../engine/RGL_Scene.ts";
-// deno-lint-ignore camelcase
-import { RGL_Shader } from "./../engine/RGL_Shader.ts";
-// deno-lint-ignore camelcase
-import { Package_Base } from "./package/Package_Base.ts";
-// deno-lint-ignore camelcase
-import { Package_SyncAdd } from "./package/Package_SyncAdd.ts";
-// deno-lint-ignore camelcase
-import { Package_SyncChangeVertex } from "./package/Package_SyncChangeVertex.ts";
-// deno-lint-ignore camelcase
-import { Package_SyncDelete } from "./package/Package_SyncDelete.ts";
-// deno-lint-ignore camelcase
-import { Package_SyncObjectList } from "./package/Package_SyncObjectList.ts";
-// deno-lint-ignore camelcase
-import { Package_SyncShaderList } from "./package/Package_SyncShaderList.ts";
-// deno-lint-ignore camelcase
-import { RGL_Input } from "./RGL_Input.ts";
+import { RGL } from "../../mod.ts";
 
-// deno-lint-ignore camelcase
-export class RGL_Session {
-    readonly scene: RGL_Scene;
+export class Session {
+    //readonly scene: RGL_Scene;
     private _clientList: Set<WebSocket.WebSocket> = new Set();
-    readonly input: RGL_Input = new RGL_Input();
+    //readonly input: Server.Input = new Server.Input();
 
     constructor() {
-        this.scene = new RGL_Scene(this);
+        // this.scene = new RGL_Scene(this);
     }
 
     addClient(client: WebSocket.WebSocket) {
@@ -38,7 +18,7 @@ export class RGL_Session {
         this._clientList.delete(client);
     }
 
-    async broadcast(pack: Package_Base) {
+    async broadcast(pack: RGL.Server.Package.Base) {
         const data = pack.pack();
         for await (const client of this._clientList) {
             try {
@@ -49,7 +29,7 @@ export class RGL_Session {
         }
     }
 
-    async syncShaderList() {
+    /*async syncShaderList() {
         // Get all shaders
         const shaders: RGL_Shader[] = [];
         const objectList = this.scene.drawableObjects;
@@ -59,26 +39,12 @@ export class RGL_Session {
             }
         });
 
-        await this.broadcast(new Package_SyncShaderList(shaders));
-    }
+        await this.broadcast(new Server.Package.SyncShaderList(shaders));
+    }*/
 
-    async syncObjectList() {
-        /*{
-            type: "objects",
-            data: this.scene.objectList.map((x) => {
-                return {
-                    id: x.id,
-                    shaderId: x.shader.id,
-                    index: x.mesh.index,
-                    vertex: x.mesh.vertex,
-                    uv: x.mesh.uv,
-                    tint: x.mesh.tint,
-                    textureUrl: x.textureUrl,
-                };
-            }),
-        }*/
+    /*async syncObjectList() {
         await this.broadcast(
-            new Package_SyncObjectList(
+            new Server.Package.SyncObjectList(
                 this.scene.drawableObjects.map((x) => {
                     return {
                         id: x.id,
@@ -99,7 +65,7 @@ export class RGL_Session {
             return;
         }
         await this.broadcast(
-            new Package_SyncAdd(
+            new Server.Package.SyncAdd(
                 this.scene.added.map((y) => {
                     const x = this.scene.drawableObjects.find((x) => x.id === y);
                     if (!x) throw new Error(`Object not exists!`);
@@ -122,7 +88,7 @@ export class RGL_Session {
         if (!this.scene.deleted.length) {
             return;
         }
-        await this.broadcast(new Package_SyncDelete(this.scene.deleted));
+        await this.broadcast(new Server.Package.SyncDelete(this.scene.deleted));
         this.scene.deleted.length = 0;
         this.scene.clearDeleted();
     }
@@ -135,7 +101,7 @@ export class RGL_Session {
 
         // Send change that only on screen
         await this.broadcast(
-            new Package_SyncChangeVertex(
+            new Server.Package.SyncChangeVertex(
                 changes
                     .filter((x) => x.isOnScreen)
                     .map((x) => {
@@ -151,10 +117,5 @@ export class RGL_Session {
         this.scene.objectList.forEach((x) => {
             x.checkOnScreen();
         });
-    }
-
-    /*async sync() {
-        await this.syncShaders();
-        await this.syncObjects();
     }*/
 }

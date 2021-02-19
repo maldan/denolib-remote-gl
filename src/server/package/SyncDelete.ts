@@ -1,22 +1,16 @@
 import { ByteSet, LengthType } from "../../../client.deps.ts";
-// deno-lint-ignore camelcase
-import { RGL_Shader } from "../../engine/RGL_Shader.ts";
-// deno-lint-ignore camelcase
-import { RGL_PackageType } from "../RGL_Package.ts";
-// deno-lint-ignore camelcase
-import { Package_Base } from "./Package_Base.ts";
+import { RGL } from "../../../mod.ts";
 
-// deno-lint-ignore camelcase
-export class Package_SyncDelete extends Package_Base {
+export class SyncDelete extends RGL.Server.Package.Base {
     objectList: number[] = [];
 
     constructor(objectList: number[]) {
-        super(RGL_PackageType.SyncDelete);
+        super(RGL.Server.Package.Type.SyncDelete);
 
         this.objectList = objectList;
     }
 
-    static from(data: ByteSet): Package_SyncDelete {
+    static from(data: ByteSet): SyncDelete {
         const list = [];
         const amount = data.read.uint16();
 
@@ -24,7 +18,7 @@ export class Package_SyncDelete extends Package_Base {
             list.push(data.read.uint16());
         }
 
-        return new Package_SyncDelete(list);
+        return new SyncDelete(list);
     }
 
     pack(): Uint8Array {

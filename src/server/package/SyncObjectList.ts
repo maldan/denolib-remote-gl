@@ -1,10 +1,5 @@
 import { ByteSet, LengthType } from "../../../client.deps.ts";
-// deno-lint-ignore camelcase
-import { RGL_Shader } from "../../engine/RGL_Shader.ts";
-// deno-lint-ignore camelcase
-import { RGL_PackageType } from "../RGL_Package.ts";
-// deno-lint-ignore camelcase
-import { Package_Base } from "./Package_Base.ts";
+import { RGL } from "../../../mod.ts";
 
 // deno-lint-ignore camelcase
 export type Type_ObjectInfo = {
@@ -16,17 +11,16 @@ export type Type_ObjectInfo = {
     textureUrl: string;
 };
 
-// deno-lint-ignore camelcase
-export class Package_SyncAdd extends Package_Base {
+export class SyncObjectList extends RGL.Server.Package.Base {
     objectList: Type_ObjectInfo[];
 
     constructor(objectList: Type_ObjectInfo[]) {
-        super(RGL_PackageType.SyncAdd);
+        super(RGL.Server.Package.Type.SyncObjectList);
 
         this.objectList = objectList;
     }
 
-    static from(data: ByteSet): Package_SyncAdd {
+    static from(data: ByteSet): SyncObjectList {
         const list = [];
         const amount = data.read.uint16();
 
@@ -41,7 +35,7 @@ export class Package_SyncAdd extends Package_Base {
             });
         }
 
-        return new Package_SyncAdd(list);
+        return new SyncObjectList(list);
     }
 
     pack(): Uint8Array {

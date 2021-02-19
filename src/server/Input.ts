@@ -100,8 +100,7 @@ export enum Keys {
     SingleQuote = 222,
 }
 
-// deno-lint-ignore camelcase
-export class RGL_Input {
+export class Input {
     readonly cursor: {
         x: number;
         y: number;

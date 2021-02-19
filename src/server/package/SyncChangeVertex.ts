@@ -1,10 +1,5 @@
 import { ByteSet, LengthType } from "../../../client.deps.ts";
-// deno-lint-ignore camelcase
-import { RGL_Shader } from "../../engine/RGL_Shader.ts";
-// deno-lint-ignore camelcase
-import { RGL_PackageType } from "../RGL_Package.ts";
-// deno-lint-ignore camelcase
-import { Package_Base } from "./Package_Base.ts";
+import { RGL } from "../../../mod.ts";
 
 // deno-lint-ignore camelcase
 export type Type_ChangeVertex = {
@@ -12,17 +7,16 @@ export type Type_ChangeVertex = {
     vertex: Float32Array;
 };
 
-// deno-lint-ignore camelcase
-export class Package_SyncChangeVertex extends Package_Base {
+export class SyncChangeVertex extends RGL.Server.Package.Base {
     changeList: Type_ChangeVertex[];
 
     constructor(changeList: Type_ChangeVertex[]) {
-        super(RGL_PackageType.SyncChangeVertex);
+        super(RGL.Server.Package.Type.SyncChangeVertex);
 
         this.changeList = changeList;
     }
 
-    static from(data: ByteSet): Package_SyncChangeVertex {
+    static from(data: ByteSet): SyncChangeVertex {
         const list = [];
         const amount = data.read.uint16();
 
@@ -34,7 +28,7 @@ export class Package_SyncChangeVertex extends Package_Base {
                 vertex: new Float32Array(Array.from(data.read.int16Array(8)).map((x) => x / 4096)),
             });
         }
-        return new Package_SyncChangeVertex(list);
+        return new SyncChangeVertex(list);
     }
 
     pack(): Uint8Array {
