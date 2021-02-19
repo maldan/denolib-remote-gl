@@ -1,11 +1,11 @@
-import { ByteSet, LengthType } from "../../../deps.ts";
-import { RGL } from "../../../mod.ts";
+import { ByteSet } from "../../deps.ts";
+import { RGL } from "../../mod.ts";
 
-export class SyncDelete extends RGL.Server.Package.Base {
+export class SyncDelete extends RGL.Package.Base {
     objectList: number[] = [];
 
     constructor(objectList: number[]) {
-        super(RGL.Server.Package.Type.SyncDelete);
+        super(RGL.Package.Type.SyncDelete);
 
         this.objectList = objectList;
     }

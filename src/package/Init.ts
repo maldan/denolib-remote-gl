@@ -1,10 +1,9 @@
-import { ByteSet, LengthType } from "../../../deps.ts";
+import { ByteSet } from "../../deps.ts";
+import { RGL } from "../../mod.ts";
 
-import { RGL } from "../../../mod.ts";
-
-export class Init extends RGL.Server.Package.Base {
+export class Init extends RGL.Package.Base {
     constructor() {
-        super(RGL.Server.Package.Type.Init);
+        super(RGL.Package.Type.Init);
     }
 
     static from(data: ByteSet): Init {

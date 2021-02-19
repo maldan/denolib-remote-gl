@@ -61,7 +61,7 @@ export class Application {
                     }
                 }*/
                 if (ev instanceof Uint8Array) {
-                    const p = RGL.Server.Package.parse(ev);
+                    const p = RGL.Package.parse(ev);
 
                     // Client connected and request init data
                     /*if (p instanceof RGL.Server.Package.Init) {
@@ -121,15 +121,16 @@ export class Application {
         console.log(`Client compilation...`);
         const cmd = Deno.run({
             cmd: ["deno", "bundle", "--config", root + "tsconfig.json", root + "client.ts", path],
-            stdout: "piped",
-            stderr: "piped",
+            //stdout: "piped",
+            //stderr: "piped",
         });
         // await its completion
         const { code } = await cmd.status();
 
         if (code === 0) {
             const rawOutput = await cmd.output();
-            await Deno.stdout.write(rawOutput);
+            console.log(rawOutput);
+            // await Deno.stdout.write(rawOutput);
         } else {
             const rawError = await cmd.stderrOutput();
             const errorString = new TextDecoder().decode(rawError);

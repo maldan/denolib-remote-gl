@@ -1,12 +1,12 @@
-import { ByteSet, LengthType } from "../../../deps.ts";
-import { RGL } from "../../../mod.ts";
+import { ByteSet } from "../../deps.ts";
+import { RGL } from "../../mod.ts";
 
-export class ResizeScreen extends RGL.Server.Package.Base {
+export class ResizeScreen extends RGL.Package.Base {
     width = 0;
     height = 0;
 
     constructor(width: number, height: number) {
-        super(RGL.Server.Package.Type.ResizeScreen);
+        super(RGL.Package.Type.ResizeScreen);
 
         this.width = width;
         this.height = height;

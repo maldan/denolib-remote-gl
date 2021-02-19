@@ -1,5 +1,5 @@
-import { ByteSet, LengthType } from "../../../deps.ts";
-import { RGL } from "../../../mod.ts";
+import { ByteSet } from "../../deps.ts";
+import { RGL } from "../../mod.ts";
 
 // deno-lint-ignore camelcase
 export type Type_ObjectInfo = {
@@ -11,11 +11,11 @@ export type Type_ObjectInfo = {
     textureUrl: string;
 };
 
-export class SyncObjectList extends RGL.Server.Package.Base {
+export class SyncObjectList extends RGL.Package.Base {
     objectList: Type_ObjectInfo[];
 
     constructor(objectList: Type_ObjectInfo[]) {
-        super(RGL.Server.Package.Type.SyncObjectList);
+        super(RGL.Package.Type.SyncObjectList);
 
         this.objectList = objectList;
     }

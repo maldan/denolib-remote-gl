@@ -2,12 +2,12 @@ import { ByteSet, WebSocket } from "../../deps.ts";
 import { RGL } from "../../mod.ts";
 
 export class Session {
-    //readonly scene: RGL_Scene;
+    readonly scene: RGL.Engine.Scene;
     private _clientList: Set<WebSocket.WebSocket> = new Set();
     //readonly input: Server.Input = new Server.Input();
 
     constructor() {
-        // this.scene = new RGL_Scene(this);
+        this.scene = new RGL.Engine.Scene(this);
     }
 
     addClient(client: WebSocket.WebSocket) {
@@ -18,7 +18,7 @@ export class Session {
         this._clientList.delete(client);
     }
 
-    async broadcast(pack: RGL.Server.Package.Base) {
+    async broadcast(pack: RGL.Package.Base) {
         const data = pack.pack();
         for await (const client of this._clientList) {
             try {
@@ -29,18 +29,18 @@ export class Session {
         }
     }
 
-    /*async syncShaderList() {
+    async syncShaderList() {
         // Get all shaders
-        const shaders: RGL_Shader[] = [];
+        /*const shaders: RGL.Engine.Shader[] = [];
         const objectList = this.scene.drawableObjects;
         objectList.forEach((obj) => {
             if (!shaders.find((y) => y.id === obj.shader.id)) {
                 shaders.push(obj.shader);
             }
-        });
+        });*/
 
-        await this.broadcast(new Server.Package.SyncShaderList(shaders));
-    }*/
+        await this.broadcast(new RGL.Package.SyncShaderList([new RGL.Engine.Shader()]));
+    }
 
     /*async syncObjectList() {
         await this.broadcast(

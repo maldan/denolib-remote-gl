@@ -1,5 +1,5 @@
-import { RGL } from "../../mod.ts";
 import { Matrix2D } from "../../deps.ts";
+import { RGL } from "../../mod.ts";
 
 export class Sprite extends RGL.Engine.RenderObject {
     constructor({

@@ -1,12 +1,4 @@
-// deno-lint-ignore camelcase
-export type Type_TextureCropArea = {
-    x: number;
-    y: number;
-    width: number;
-    height: number;
-    textureWidth: number;
-    textureHeight: number;
-};
+import { RGL } from "../../mod.ts";
 
 export class Mesh {
     index: Uint16Array = new Uint16Array([0, 1, 2, 0, 2, 3]);
@@ -39,7 +31,7 @@ export class Mesh {
         return inside;
     }
 
-    cropUV({ textureWidth, textureHeight, x, y, width, height }: Type_TextureCropArea) {
+    cropUV({ textureWidth, textureHeight, x, y, width, height }: RGL.Engine.Type.TextureCropArea) {
         this.uv = new Float32Array([
             x / textureWidth,
             1 - (y + height) / textureHeight,

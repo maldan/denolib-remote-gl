@@ -1,12 +1,12 @@
-import { ByteSet, LengthType } from "../../../deps.ts";
-import { RGL } from "../../../mod.ts";
+import { ByteSet, LengthType } from "../../deps.ts";
+import { RGL } from "../../mod.ts";
 
-export class UserEventKeyDown extends RGL.Server.Package.Base {
+export class UserEventKeyDown extends RGL.Package.Base {
     code = "";
     keyCode = 0;
 
     constructor(code: string, keyCode: number) {
-        super(RGL.Server.Package.Type.UserEventKeyDown);
+        super(RGL.Package.Type.UserEventKeyDown);
 
         this.code = code;
         this.keyCode = keyCode;

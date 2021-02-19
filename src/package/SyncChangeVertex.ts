@@ -1,5 +1,5 @@
-import { ByteSet, LengthType } from "../../../deps.ts";
-import { RGL } from "../../../mod.ts";
+import { ByteSet } from "../../deps.ts";
+import { RGL } from "../../mod.ts";
 
 // deno-lint-ignore camelcase
 export type Type_ChangeVertex = {
@@ -7,11 +7,11 @@ export type Type_ChangeVertex = {
     vertex: Float32Array;
 };
 
-export class SyncChangeVertex extends RGL.Server.Package.Base {
+export class SyncChangeVertex extends RGL.Package.Base {
     changeList: Type_ChangeVertex[];
 
     constructor(changeList: Type_ChangeVertex[]) {
-        super(RGL.Server.Package.Type.SyncChangeVertex);
+        super(RGL.Package.Type.SyncChangeVertex);
 
         this.changeList = changeList;
     }

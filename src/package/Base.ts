@@ -1,12 +1,11 @@
-import { ByteSet, LengthType } from "../../../deps.ts";
-
-import { RGL } from "../../../mod.ts";
+import { ByteSet } from "../../deps.ts";
+import { RGL } from "../../mod.ts";
 
 export class Base {
-    type: RGL.Server.Package.Type;
+    type: RGL.Package.Type;
     data: ByteSet;
 
-    constructor(type: RGL.Server.Package.Type) {
+    constructor(type: RGL.Package.Type) {
         this.type = type;
         this.data = new ByteSet(0);
     }
@@ -16,7 +15,7 @@ export class Base {
     }
 
     static from(data: ByteSet): Base {
-        return new Base(RGL.Server.Package.Type.None);
+        return new Base(RGL.Package.Type.None);
     }
 
     pack(): Uint8Array {
