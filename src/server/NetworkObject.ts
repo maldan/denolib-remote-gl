@@ -10,8 +10,13 @@ export class NetworkObject {
 
     constructor(obj: RGL.Engine.RenderObject) {
         this.id = obj.id;
-        this.shaderId = obj.shaderId;
-        this.textureId = obj.textureId;
+        this.textureId = obj.texture?.id ?? 0;
+
+        if (obj.shader) {
+            this.shaderId = obj.shader.id;
+        } else {
+            throw new Error(`Object without shader!`);
+        }
 
         if (obj.mesh) {
             this.index = obj.mesh.index;

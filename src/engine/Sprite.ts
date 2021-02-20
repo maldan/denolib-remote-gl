@@ -7,8 +7,6 @@ export class Sprite extends RGL.Engine.RenderObject {
 
     constructor({
         id = 0,
-        shaderId = 0,
-        textureId = 0,
         x = 0,
         y = 0,
         zIndex = 0,
@@ -17,11 +15,28 @@ export class Sprite extends RGL.Engine.RenderObject {
         scaleX = 1,
         scaleY = 1,
         rotation = 0,
-    }: RGL.Server.Type.RenderoObjectInfo) {
-        super({ id, shaderId, textureId, x, y, zIndex, width, height, scaleX, scaleY, rotation });
+        texture,
+        isUseTextureResolution = false,
+    }: RGL.Engine.Type.RenderObjectInfo) {
+        super({
+            id,
+            x,
+            y,
+            zIndex,
+            width,
+            height,
+            scaleX,
+            scaleY,
+            rotation,
+            isUseTextureResolution,
+        });
 
+        this.matrix = new Matrix2D();
         this.shader = new RGL.Engine.Shader();
         this.mesh = new RGL.Engine.Mesh();
+        if (texture) {
+            this.texture = texture;
+        }
     }
 
     update(parent: Matrix2D) {
@@ -46,8 +61,5 @@ export class Sprite extends RGL.Engine.RenderObject {
 
         this.mesh.center.x = raw[12];
         this.mesh.center.y = raw[13];
-
-        // Check changes
-        // this.checkChange();
     }
 }

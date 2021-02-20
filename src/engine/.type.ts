@@ -1,7 +1,7 @@
-export type RenderoObjectInfo = {
+import { RGL } from "../../mod.ts";
+
+export type RenderObjectInfo = {
     id?: number;
-    shaderId?: number;
-    textureId?: number;
     x?: number;
     y?: number;
     zIndex?: number;
@@ -10,6 +10,8 @@ export type RenderoObjectInfo = {
     scaleX?: number;
     scaleY?: number;
     rotation?: number;
+    texture?: RGL.Engine.Texture;
+    isUseTextureResolution?: boolean;
 };
 
 export type TextureCropArea = {

@@ -1,45 +1,66 @@
-import { ByteSet, WebSocket } from "../../deps.ts";
+import { ByteSet, EArray, WebSocket } from "../../deps.ts";
 import { RGL } from "../../mod.ts";
-import { NetworkObject } from "./NetworkObject.ts";
 
 export class Session {
     readonly scene: RGL.Engine.Scene;
     readonly input: RGL.Server.Input = new RGL.Server.Input();
-    private _clientList: Set<WebSocket.WebSocket> = new Set();
+    readonly userList: Set<RGL.Server.User> = new Set();
 
     constructor() {
         this.scene = new RGL.Engine.Scene(this);
     }
 
-    addClient(client: WebSocket.WebSocket) {
-        this._clientList.add(client);
+    addUser(user: RGL.Server.User) {
+        this.userList.add(user);
     }
 
-    removeClient(client: WebSocket.WebSocket) {
-        this._clientList.delete(client);
-    }
-
-    async broadcast(pack: RGL.Package.Base) {
-        const data = pack.pack();
-        for await (const client of this._clientList) {
-            try {
-                await client.send(data);
-            } catch {
-                //
-            }
-        }
+    removeUser(user: RGL.Server.User) {
+        this.userList.delete(user);
     }
 
     async syncShaderList() {
-        await this.broadcast(new RGL.Package.SyncShaderList([new RGL.Engine.Shader()]));
+        // Get all system shaders
+        const shaders = [new RGL.Engine.Shader()];
+
+        // Send to each user
+        for (const user of this.userList) {
+            await user.synShaderList(shaders);
+        }
     }
 
     async syncObjectList() {
-        await this.broadcast(
-            new RGL.Package.SyncObjectList(
-                this.scene.drawableObjectList.map((x) => new NetworkObject(x))
-            )
+        // Get all objects
+        const objectList = this.scene.drawableObjectList.map(
+            (x) => new RGL.Server.NetworkObject(x)
         );
+
+        // Send to each user
+        for (const user of this.userList) {
+            await user.syncObjectList(objectList);
+        }
+    }
+
+    async syncTextureList() {
+        const textureList = this.scene.textureList.filter((x) => !x.isDestroyed);
+        console.log(textureList.map((x) => x.isDestroyed));
+        // Send to each user
+        for (const user of this.userList) {
+            await user.syncTextureList(textureList);
+        }
+    }
+
+    async draw() {
+        // Send to each user
+        for (const user of this.userList) {
+            await user.draw();
+        }
+    }
+
+    async sync() {
+        await this.syncShaderList();
+        await this.syncTextureList();
+        await this.syncObjectList();
+        await this.syncChangeList();
     }
 
     /*async syncAdded() {
@@ -73,31 +94,52 @@ export class Session {
         await this.broadcast(new Server.Package.SyncDelete(this.scene.deleted));
         this.scene.deleted.length = 0;
         this.scene.clearDeleted();
-    }
+    }*/
 
     async syncChangeList() {
-        // Get only changed objects
-        const changes = this.scene.changedObjects;
+        // Check changes
+        this.scene.objectFlatList.forEach((x) => x.checkChanges());
 
+        // Get only changed objects
+        const changes = this.scene.changedObjectList;
+
+        // No changes
         if (!changes.length) return;
 
+        // Send to each user
+        for (const user of this.userList) {
+            await user.syncChangeList(changes.filter((x) => x.isOnScreen && x.isChanged));
+        }
+
         // Send change that only on screen
-        await this.broadcast(
-            new Server.Package.SyncChangeVertex(
-                changes
-                    .filter((x) => x.isOnScreen)
-                    .map((x) => {
-                        return {
-                            id: x.id,
-                            vertex: x.mesh.vertex,
-                        };
-                    })
+        /* await this.broadcast(
+            new RGL.Package.SyncChangeVertex(
+               
             )
         );
 
+        const textureChanged = changes
+            .filter((x) => x.isOnScreen && x.isTextureChanged)
+            .map((x) => {
+                if (!x.mesh) {
+                    throw new Error(`Mesh not found!`);
+                }
+                return {
+                    id: x.id,
+                    textureId: x.texture?.id as number,
+                };
+            });
+
+        if (textureChanged.length) {
+            console.log(textureChanged);
+            // Send change that only on screen
+            await this.broadcast(new RGL.Package.SyncChangeTexture(textureChanged));
+            // await this.syncTextureList();
+        }
+
         // Check if object on screen
         this.scene.objectList.forEach((x) => {
-            x.checkOnScreen();
-        });
-    }*/
+            // x.checkOnScreen();
+        });*/
+    }
 }

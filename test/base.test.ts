@@ -5,7 +5,6 @@ import { RGL } from "../mod.ts";
 Deno.test("base render object", () => {
     const r = new RGL.Engine.RenderObject({ id: 1, x: 10, y: 20 });
     assertEquals(r.id, 1);
-    assertEquals(r.shaderId, 0);
     assertEquals(r.x, 10);
     assertEquals(r.y, 20);
 });

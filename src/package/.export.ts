@@ -9,9 +9,13 @@ export { ResizeScreen } from "./receive/ResizeScreen.ts";
 // Send
 export { SyncShaderList } from "./send/SyncShaderList.ts";
 export { SyncObjectList } from "./send/SyncObjectList.ts";
+export { SyncTextureList } from "./send/SyncTextureList.ts";
 export { SyncDelete } from "./send/SyncDelete.ts";
+export { SyncDeleteTexture } from "./send/SyncDeleteTexture.ts";
 export { SyncChangeVertex } from "./send/SyncChangeVertex.ts";
+export { SyncChangeTexture } from "./send/SyncChangeTexture.ts";
 export { SyncAdd } from "./send/SyncAdd.ts";
+export { Draw } from "./send/Draw.ts";
 
 // Parse packages
 export { parse } from "./Package.ts";
@@ -21,14 +25,17 @@ export enum Type {
     None = 0,
     Init = 1,
     ResizeScreen = 2,
+    Draw = 3,
 
     // Server sync object & object params
     SyncShaderList = 10,
     SyncObjectList = 11,
-    SyncChangeVertex = 13,
-    SyncChangeTexture = 14,
-    SyncAdd = 15,
-    SyncDelete = 16,
+    SyncTextureList = 12,
+    SyncChangeVertex = 20,
+    SyncChangeTexture = 21,
+    SyncAdd = 30,
+    SyncDelete = 31,
+    SyncDeleteTexture = 32,
 
     // User event
     UserEventMouseDown = 40,

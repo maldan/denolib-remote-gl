@@ -1,11 +1,15 @@
+import { EArray } from "../../deps.ts";
 import { RGL } from "../../mod.ts";
+import { Texture } from "./Texture.ts";
 
 export class Scene {
     readonly camera: RGL.Engine.Camera = new RGL.Engine.Camera();
     objectList: RGL.Engine.RenderObject[] = [];
 
     private _session: RGL.Server.Session;
-    private _index = 0;
+    private _index = 1;
+    private _textureIndex = 1;
+    readonly textureList: Texture[] = [];
 
     added: number[] = [];
     deleted: number[] = [];
@@ -31,6 +35,23 @@ export class Scene {
         this.objectList = this.objectList.filter((x) => !x.isDeleted);
     }
 
+    async createTexture(path: string) {
+        const findTexture = this.textureList.find((x) => x.path === path);
+        if (findTexture) {
+            return findTexture;
+        }
+
+        const t = new Texture(path);
+        await t.load();
+        t.id = this._textureIndex++;
+        this.textureList.push(t);
+        return t;
+    }
+
+    /*async destroyTexture(texture: Texture) {
+        EArray(this.textureList).delete(texture);
+    }*/
+
     update() {
         // Update camera
         this.camera.update();
@@ -39,9 +60,19 @@ export class Scene {
         this.handleEvent("mouseover");
 
         // Update each object
-        for (let i = 0; i < this.objectList.length; i++) {
-            const obj = this.objectList[i];
-            obj.update(this.camera.matrix);
+        const objectList = this.objectFlatList;
+        for (let i = 0; i < objectList.length; i++) {
+            /*if (objectList[i].texture) {
+                if (!objectList[i].texture?.isInit) {
+                    objectList[i].texture?.load(this._textureIndex++);
+                }
+                
+            }*/
+            if (objectList[i].texture?.isLoaded && objectList[i].isUseTextureResolution) {
+                objectList[i].width = objectList[i].texture?.width as number;
+                objectList[i].height = objectList[i].texture?.height as number;
+            }
+            objectList[i].update(this.camera.matrix);
         }
     }
 
@@ -76,6 +107,6 @@ export class Scene {
     }
 
     get changedObjectList() {
-        return this.drawableObjectList.filter((x) => x.isChanged);
+        return this.drawableObjectList.filter((x) => x.mesh && x.isChanged);
     }
 }

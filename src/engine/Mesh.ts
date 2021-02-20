@@ -2,7 +2,9 @@ import { RGL } from "../../mod.ts";
 
 export class Mesh {
     index: Uint16Array = new Uint16Array([0, 1, 2, 0, 2, 3]);
+    previousVertex: Float32Array = new Float32Array([0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]);
     vertex: Float32Array = new Float32Array([-0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5]);
+    previousUv: Float32Array = new Float32Array([0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]);
     uv: Float32Array = new Float32Array([0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0]);
     tint: number[] = [1, 1, 1];
     center: { x: number; y: number } = { x: 0, y: 0 };
@@ -29,6 +31,32 @@ export class Mesh {
         }
 
         return inside;
+    }
+
+    get isVertexChange() {
+        let isChanged = false;
+
+        for (let i = 0; i < this.previousVertex.length; i++) {
+            if (this.previousVertex[i] !== this.vertex[i]) {
+                isChanged = true;
+            }
+            this.previousVertex[i] = this.vertex[i];
+        }
+
+        return isChanged;
+    }
+
+    get isUvChange() {
+        let isChanged = false;
+
+        for (let i = 0; i < this.previousUv.length; i++) {
+            if (this.previousUv[i] !== this.uv[i]) {
+                isChanged = true;
+            }
+            this.previousUv[i] = this.uv[i];
+        }
+
+        return isChanged;
     }
 
     cropUV({ textureWidth, textureHeight, x, y, width, height }: RGL.Engine.Type.TextureCropArea) {

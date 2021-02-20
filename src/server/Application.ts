@@ -8,9 +8,13 @@ export class Application {
         this.session
     );
 
+    private _clientMap: Map<WebSocket.WebSocket, RGL.Server.User> = new Map();
+
     async handleWs(sock: WebSocket.WebSocket) {
         // Create session
-        this.session.addClient(sock);
+        const user = new RGL.Server.User(sock);
+        this.session.addUser(user);
+        this._clientMap.set(sock, user);
 
         try {
             // Read event from socket
@@ -66,6 +70,7 @@ export class Application {
                     if (p instanceof RGL.Package.Init) {
                         await this.session.syncShaderList();
                         await this.session.syncObjectList();
+                        await this.session.syncTextureList();
                     }
 
                     // User down key
@@ -75,14 +80,18 @@ export class Application {
                     // User up key
                     if (p instanceof RGL.Server.Package.UserEventKeyUp) {
                         this.session.input.keys[p.keyCode] = false;
-                    }
+                    }*/
                     // User up key
-                    if (p instanceof RGL.Server.Package.ResizeScreen) {
+                    if (p instanceof RGL.Package.ResizeScreen) {
                         this.session.scene.camera.width = p.width;
                         this.session.scene.camera.height = p.height;
-                    }*/
+                    }
                 } else if (WebSocket.isWebSocketCloseEvent(ev)) {
-                    this.session.removeClient(sock);
+                    const user = this._clientMap.get(sock);
+                    if (user) {
+                        this.session.removeUser(user);
+                        this._clientMap.delete(sock);
+                    }
                 }
             }
         } catch (err) {
@@ -100,6 +109,11 @@ export class Application {
      */
     async init(port: number) {
         // Update cycle
+        setInterval(async () => {
+            // Update scene
+            this.session.scene?.update();
+            this.event.emit("update");
+        }, 1000 / 60);
 
         for await (const req of Http.serve(`:${port}`)) {
             const { conn, r: bufReader, w: bufWriter, headers } = req;

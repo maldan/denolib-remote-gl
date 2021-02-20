@@ -8,6 +8,8 @@ export function parse(data: Uint8Array) {
     switch (packageType) {
         case RGL.Package.Type.Init:
             return RGL.Package.Init.from(bytes);
+        case RGL.Package.Type.ResizeScreen:
+            return RGL.Package.ResizeScreen.from(bytes);
         case RGL.Package.Type.UserEventKeyDown:
             return RGL.Package.UserEventKeyDown.from(bytes);
         case RGL.Package.Type.UserEventKeyUp:
