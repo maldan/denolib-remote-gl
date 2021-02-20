@@ -19,7 +19,7 @@ export class Shader {
         uniform sampler2D uTexture;
 
         void main() {
-            vec4 color = texture2D(uTexture, vUV);
+            vec4 color = vec4(1.0); //texture2D(uTexture, vUV);
             //if (color.a < 0.05) discard;
 
             gl_FragColor = color;

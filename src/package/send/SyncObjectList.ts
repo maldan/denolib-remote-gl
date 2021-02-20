@@ -1,20 +1,11 @@
 import { ByteSet } from "../../../deps.ts";
 import { RGL } from "../../../mod.ts";
-
-// deno-lint-ignore camelcase
-export type Type_ObjectInfo = {
-    id: number;
-    shaderId: number;
-    index: Uint8Array;
-    vertex: Float32Array;
-    uv: Float32Array;
-    textureUrl: string;
-};
+import { NetworkObject } from "../../server/.export.ts";
 
 export class SyncObjectList extends RGL.Package.Base {
-    objectList: Type_ObjectInfo[];
+    objectList: NetworkObject[];
 
-    constructor(objectList: Type_ObjectInfo[]) {
+    constructor(objectList: NetworkObject[]) {
         super(RGL.Package.Type.SyncObjectList);
 
         this.objectList = objectList;
@@ -45,10 +36,11 @@ export class SyncObjectList extends RGL.Package.Base {
         this.objectList.forEach((x) => {
             totalLength += 2; // id
             totalLength += 1; // shader id
-            totalLength += x.index.length; // index
+            totalLength += 2; // texture id
+            totalLength += x.index.length * 2; // index
             totalLength += x.vertex.length * 4; // vertex
             totalLength += x.uv.length * 4; // uv
-            totalLength += 4 + x.textureUrl.length; // str len + texture length
+            // totalLength += 4 + x.textureUrl.length; // str len + texture length
         });
 
         this.data = new ByteSet(totalLength);
@@ -58,10 +50,11 @@ export class SyncObjectList extends RGL.Package.Base {
         this.objectList.forEach((x) => {
             this.data.write.uint16(x.id); // object id
             this.data.write.uint8(x.shaderId); // shader id
-            this.data.write.uint8Array(x.index); // index
+            this.data.write.uint16(x.textureId); // shader id
+            this.data.write.uint16Array(x.index); // index
             this.data.write.float32Array(x.vertex); // vertex
             this.data.write.float32Array(x.uv); // uv
-            this.data.write.string(x.textureUrl); // texture url
+            // this.data.write.string(x.textureUrl); // texture url
         });
 
         return this.buffer;

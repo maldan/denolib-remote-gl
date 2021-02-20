@@ -1,5 +1,6 @@
 import { ByteSet, WebSocket } from "../../deps.ts";
 import { RGL } from "../../mod.ts";
+import { NetworkObject } from "./NetworkObject.ts";
 
 export class Session {
     readonly scene: RGL.Engine.Scene;
@@ -33,25 +34,15 @@ export class Session {
         await this.broadcast(new RGL.Package.SyncShaderList([new RGL.Engine.Shader()]));
     }
 
-    /*async syncObjectList() {
+    async syncObjectList() {
         await this.broadcast(
-            new Server.Package.SyncObjectList(
-                this.scene.drawableObjects.map((x) => {
-                    return {
-                        id: x.id,
-                        shaderId: x.shader.id,
-                        index: x.mesh.index,
-                        vertex: x.mesh.vertex,
-                        uv: x.mesh.uv,
-                        // tint: x.mesh.tint,
-                        textureUrl: x.textureUrl,
-                    };
-                })
+            new RGL.Package.SyncObjectList(
+                this.scene.drawableObjectList.map((x) => new NetworkObject(x))
             )
         );
     }
 
-    async syncAdded() {
+    /*async syncAdded() {
         if (!this.scene.added.length) {
             return;
         }

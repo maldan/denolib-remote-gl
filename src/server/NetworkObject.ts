@@ -12,8 +12,13 @@ export class NetworkObject {
         this.id = obj.id;
         this.shaderId = obj.shaderId;
         this.textureId = obj.textureId;
-        this.index = obj.mesh.index;
-        this.vertex = obj.mesh.vertex;
-        this.uv = obj.mesh.uv;
+
+        if (obj.mesh) {
+            this.index = obj.mesh.index;
+            this.vertex = obj.mesh.vertex;
+            this.uv = obj.mesh.uv;
+        } else {
+            throw new Error(`Object without mesh data!`);
+        }
     }
 }

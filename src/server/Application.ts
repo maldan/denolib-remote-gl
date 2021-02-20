@@ -63,13 +63,13 @@ export class Application {
                     const p = RGL.Package.parse(ev);
 
                     // Client connected and request init data
-                    /*if (p instanceof RGL.Server.Package.Init) {
+                    if (p instanceof RGL.Package.Init) {
                         await this.session.syncShaderList();
                         await this.session.syncObjectList();
                     }
 
                     // User down key
-                    if (p instanceof RGL.Server.Package.UserEventKeyDown) {
+                    /*if (p instanceof RGL.Server.Package.UserEventKeyDown) {
                         this.session.input.keys[p.keyCode] = true;
                     }
                     // User up key

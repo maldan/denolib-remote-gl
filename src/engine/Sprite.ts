@@ -2,6 +2,9 @@ import { Matrix2D } from "../../deps.ts";
 import { RGL } from "../../mod.ts";
 
 export class Sprite extends RGL.Engine.RenderObject {
+    mesh!: RGL.Engine.Mesh;
+    matrix!: Matrix2D;
+
     constructor({
         id = 0,
         shaderId = 0,
