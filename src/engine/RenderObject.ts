@@ -27,9 +27,10 @@ export class RenderObject {
     isDrawable = true;
 
     // Data
-    matrix: Matrix2D = new Matrix2D();
-    mesh: RGL.Engine.Mesh = new RGL.Engine.Mesh();
-    // shader: RGL_Shader = new RGL_Shader();
+    matrix: Matrix2D | null = null;
+    mesh: RGL.Engine.Mesh | null = null;
+    shader: RGL.Engine.Shader | null = null;
+    texture: RGL.Engine.Texture | null = null;
 
     // Container
     objectList: RenderObject[] = [];

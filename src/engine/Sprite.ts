@@ -16,6 +16,9 @@ export class Sprite extends RGL.Engine.RenderObject {
         rotation = 0,
     }: RGL.Server.Type.RenderoObjectInfo) {
         super({ id, shaderId, textureId, x, y, zIndex, width, height, scaleX, scaleY, rotation });
+
+        this.shader = new RGL.Engine.Shader();
+        this.mesh = new RGL.Engine.Mesh();
     }
 
     update(parent: Matrix2D) {

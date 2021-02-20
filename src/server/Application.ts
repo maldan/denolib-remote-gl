@@ -1,5 +1,4 @@
 import { WebSocket, Http } from "../../deps.ts";
-
 import { RGL } from "../../mod.ts";
 
 export class Application {

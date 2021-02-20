@@ -5,4 +5,5 @@ export { Mesh } from "./Mesh.ts";
 export { Shader } from "./Shader.ts";
 export { Camera } from "./Camera.ts";
 export { Scene } from "./Scene.ts";
+export { Texture } from "./Texture.ts";
 export * as Type from "./.type.ts";

@@ -3,8 +3,8 @@ import { RGL } from "../../mod.ts";
 
 export class Session {
     readonly scene: RGL.Engine.Scene;
-    private _clientList: Set<WebSocket.WebSocket> = new Set();
     readonly input: RGL.Server.Input = new RGL.Server.Input();
+    private _clientList: Set<WebSocket.WebSocket> = new Set();
 
     constructor() {
         this.scene = new RGL.Engine.Scene(this);
@@ -30,15 +30,6 @@ export class Session {
     }
 
     async syncShaderList() {
-        // Get all shaders
-        /*const shaders: RGL.Engine.Shader[] = [];
-        const objectList = this.scene.drawableObjects;
-        objectList.forEach((obj) => {
-            if (!shaders.find((y) => y.id === obj.shader.id)) {
-                shaders.push(obj.shader);
-            }
-        });*/
-
         await this.broadcast(new RGL.Package.SyncShaderList([new RGL.Engine.Shader()]));
     }
 
