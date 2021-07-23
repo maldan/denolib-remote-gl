@@ -42,11 +42,19 @@ export class Session {
 
     async syncTextureList() {
         const textureList = this.scene.textureList.filter((x) => !x.isDestroyed);
-        console.log(textureList.map((x) => x.isDestroyed));
+        const textureDeletedList = this.scene.textureList.filter((x) => x.isDestroyed);
+
         // Send to each user
         for (const user of this.userList) {
             await user.syncTextureList(textureList);
         }
+
+        // Send to each user
+        for (const user of this.userList) {
+            await user.syncDeleteTextureList(textureDeletedList);
+        }
+
+        this.scene.textureList = this.scene.textureList.filter((x) => !x.isDestroyed);
     }
 
     async draw() {

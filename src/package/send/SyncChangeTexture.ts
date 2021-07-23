@@ -8,7 +8,7 @@ export type Type_ChangeTexture = {
 };
 
 export class SyncChangeTexture extends RGL.Package.Base {
-    changeList: Type_ChangeTexture[];
+    /*changeList: Type_ChangeTexture[];
 
     constructor(changeList: Type_ChangeTexture[]) {
         super(RGL.Package.Type.SyncChangeTexture);
@@ -35,5 +35,5 @@ export class SyncChangeTexture extends RGL.Package.Base {
         });
 
         return this.buffer;
-    }
+    }*/
 }

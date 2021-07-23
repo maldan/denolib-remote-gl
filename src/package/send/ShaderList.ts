@@ -1,11 +1,11 @@
 import { ByteSet, LengthType } from "../../../deps.ts";
 import { RGL } from "../../../mod.ts";
 
-export class SyncShaderList extends RGL.Package.Base {
+export class ShaderList extends RGL.Package.Base {
     shaderList: RGL.Engine.Shader[];
 
     constructor(shaderList: RGL.Engine.Shader[]) {
-        super(RGL.Package.Type.SyncShaderList);
+        super(RGL.Package.Type.ShaderList);
 
         this.shaderList = shaderList;
     }

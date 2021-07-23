@@ -5,11 +5,11 @@ import { Texture } from "./Texture.ts";
 export class Scene {
     readonly camera: RGL.Engine.Camera = new RGL.Engine.Camera();
     objectList: RGL.Engine.RenderObject[] = [];
+    textureList: Texture[] = [];
 
     private _session: RGL.Server.Session;
     private _index = 1;
     private _textureIndex = 1;
-    readonly textureList: Texture[] = [];
 
     added: number[] = [];
     deleted: number[] = [];

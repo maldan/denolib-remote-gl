@@ -10,10 +10,10 @@ export function parse(data: Uint8Array) {
             return RGL.Package.Init.from(bytes);
         case RGL.Package.Type.ResizeScreen:
             return RGL.Package.ResizeScreen.from(bytes);
-        case RGL.Package.Type.UserEventKeyDown:
-            return RGL.Package.UserEventKeyDown.from(bytes);
-        case RGL.Package.Type.UserEventKeyUp:
-            return RGL.Package.UserEventKeyUp.from(bytes);
+        case RGL.Package.Type.EventKeyDown:
+            return RGL.Package.EventKeyDown.from(bytes);
+        case RGL.Package.Type.EventKeyUp:
+            return RGL.Package.EventKeyUp.from(bytes);
         default:
             throw new Error(`Unknown package type ${packageType}`);
     }

@@ -1,11 +1,11 @@
 import { ByteSet } from "../../../deps.ts";
 import { RGL } from "../../../mod.ts";
 
-export class SyncDeleteTexture extends RGL.Package.Base {
-    textureList: number[] = [];
+export class DeleteTexture extends RGL.Package.Base {
+    textureList: RGL.Engine.Texture[] = [];
 
-    constructor(textureList: number[]) {
-        super(RGL.Package.Type.SyncDeleteTexture);
+    constructor(textureList: RGL.Engine.Texture[]) {
+        super(RGL.Package.Type.DeleteTexture);
 
         this.textureList = textureList;
     }
@@ -23,7 +23,7 @@ export class SyncDeleteTexture extends RGL.Package.Base {
         this.data.write.uint16(this.textureList.length); // object list max 65536
 
         this.textureList.forEach((x) => {
-            this.data.write.uint16(x); // object id
+            this.data.write.uint16(x.id); // object id
         });
 
         return this.buffer;

@@ -1,16 +1,14 @@
-import { ImageType } from "../../../image/src/Image.ts";
 import { Image } from "../../deps.ts";
 
 export class Texture {
     id = 0;
     isInit = false;
     isLoaded = false;
-    isAlpha = false;
+    hasAlpha = false;
     isDestroyed = false;
     width = 0;
     height = 0;
-
-    readonly path: string;
+    path: string;
 
     private _buffer!: Uint8Array;
 
@@ -24,21 +22,21 @@ export class Texture {
         }
         this.isInit = true;
 
+        // Read data
         this._buffer = await Deno.readFile(this.path);
 
-        // Set resulotion
-        //const type = await Image.typeOf(this._buffer);
-        const r = await Image.resolution(this._buffer);
+        const info = await Image.info(this.path);
+        this.width = info.width;
+        this.height = info.height;
+        this.hasAlpha = info.hasAlpha;
 
-        this.width = r.width || 1920;
-        this.height = r.height || 1080;
-
-        // Has alpha
-        /*if (type === ImageType.PNG) {
-            this.isAlpha = true;
-        }*/
-
+        // Set is loaded
         this.isLoaded = true;
+    }
+
+    async update(path: string) {
+        this.path = path;
+        this._buffer = await Deno.readFile(this.path);
     }
 
     destroy() {

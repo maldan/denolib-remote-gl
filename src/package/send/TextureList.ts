@@ -1,11 +1,11 @@
 import { ByteSet, LengthType } from "../../../deps.ts";
 import { RGL } from "../../../mod.ts";
 
-export class SyncTextureList extends RGL.Package.Base {
+export class TextureList extends RGL.Package.Base {
     textureList: RGL.Engine.Texture[];
 
     constructor(textureList: RGL.Engine.Texture[]) {
-        super(RGL.Package.Type.SyncTextureList);
+        super(RGL.Package.Type.TextureList);
 
         this.textureList = textureList;
     }
@@ -29,7 +29,7 @@ export class SyncTextureList extends RGL.Package.Base {
             this.data.write.uint16(x.id); // texture id
             this.data.write.uint16(x.height); // texture id
             this.data.write.uint16(x.width); // texture id
-            this.data.write.uint8(x.isAlpha ? 1 : 0); // texture id
+            this.data.write.uint8(x.hasAlpha ? 1 : 0); // texture id
             this.data.write.uint8Array(x.buffer, LengthType.Uint32); // texture data
         });
 

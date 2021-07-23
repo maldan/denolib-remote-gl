@@ -11,11 +11,11 @@ export type Type_ObjectInfo = {
     textureUrl: string;
 };
 
-export class SyncAdd extends RGL.Package.Base {
+export class AddObject extends RGL.Package.Base {
     objectList: Type_ObjectInfo[];
 
     constructor(objectList: Type_ObjectInfo[]) {
-        super(RGL.Package.Type.SyncAdd);
+        super(RGL.Package.Type.AddObject);
 
         this.objectList = objectList;
     }

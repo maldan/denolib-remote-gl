@@ -2,11 +2,11 @@ import { ByteSet } from "../../../deps.ts";
 import { RGL } from "../../../mod.ts";
 import { NetworkObject } from "../../server/.export.ts";
 
-export class SyncObjectList extends RGL.Package.Base {
+export class ObjectList extends RGL.Package.Base {
     objectList: NetworkObject[];
 
     constructor(objectList: NetworkObject[]) {
-        super(RGL.Package.Type.SyncObjectList);
+        super(RGL.Package.Type.ObjectList);
 
         this.objectList = objectList;
     }

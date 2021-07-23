@@ -2,19 +2,21 @@ export { Base } from "./Base.ts";
 
 // Receive
 export { Init } from "./receive/Init.ts";
-export { UserEventKeyUp } from "./receive/UserEventKeyUp.ts";
-export { UserEventKeyDown } from "./receive/UserEventKeyDown.ts";
+export { EventKeyUp } from "./receive/EventKeyUp.ts";
+export { EventKeyDown } from "./receive/EventKeyDown.ts";
 export { ResizeScreen } from "./receive/ResizeScreen.ts";
 
 // Send
-export { SyncShaderList } from "./send/SyncShaderList.ts";
-export { SyncObjectList } from "./send/SyncObjectList.ts";
-export { SyncTextureList } from "./send/SyncTextureList.ts";
-export { SyncDelete } from "./send/SyncDelete.ts";
-export { SyncDeleteTexture } from "./send/SyncDeleteTexture.ts";
+export { ShaderList } from "./send/ShaderList.ts";
+export { ObjectList } from "./send/ObjectList.ts";
+export { TextureList } from "./send/TextureList.ts";
+export { DeleteObject } from "./send/DeleteObject.ts";
+export { DeleteTexture } from "./send/DeleteTexture.ts";
 export { SyncChangeVertex } from "./send/SyncChangeVertex.ts";
 export { SyncChangeTexture } from "./send/SyncChangeTexture.ts";
-export { SyncAdd } from "./send/SyncAdd.ts";
+export { AddObject } from "./send/AddObject.ts";
+export { UpdateObject } from "./send/UpdateObject.ts";
+// export { UpdateTexture } from "./send/UpdateTexture.ts";
 export { Draw } from "./send/Draw.ts";
 
 // Parse packages
@@ -27,24 +29,26 @@ export enum Type {
     ResizeScreen = 2,
     Draw = 3,
 
-    // Server sync object & object params
-    SyncShaderList = 10,
-    SyncObjectList = 11,
-    SyncTextureList = 12,
-    SyncChangeVertex = 20,
-    SyncChangeTexture = 21,
-    SyncAdd = 30,
-    SyncDelete = 31,
-    SyncDeleteTexture = 32,
+    // Sync list
+    ShaderList = 10,
+    ObjectList = 11,
+    TextureList = 12,
+
+    // Sync object
+    AddObject = 30,
+    DeleteObject = 31,
+    DeleteTexture = 32,
+    UpdateObject = 33,
+    UpdateTexture = 34,
 
     // User event
-    UserEventMouseDown = 40,
-    UserEventMouseUp = 41,
-    UserEventClick = 42,
-    UserEventKeyDown = 43,
-    UserEventKeyUp = 44,
-    UserEventZoom = 45,
-    UserEventRotation = 46,
-    UserEventTranslation = 47,
-    UserEventResizeScreen = 48,
+    EventMouseDown = 40,
+    EventMouseUp = 41,
+    EventClick = 42,
+    EventKeyDown = 43,
+    EventKeyUp = 44,
+    EventZoom = 45,
+    EventRotation = 46,
+    EventTranslation = 47,
+    EventResizeScreen = 48,
 }

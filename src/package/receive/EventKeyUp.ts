@@ -1,19 +1,19 @@
 import { ByteSet, LengthType } from "../../../deps.ts";
 import { RGL } from "../../../mod.ts";
 
-export class UserEventKeyUp extends RGL.Package.Base {
+export class EventKeyUp extends RGL.Package.Base {
     code = "";
     keyCode = 0;
 
     constructor(code: string, keyCode: number) {
-        super(RGL.Package.Type.UserEventKeyUp);
+        super(RGL.Package.Type.EventKeyUp);
 
         this.code = code;
         this.keyCode = keyCode;
     }
 
-    static from(data: ByteSet): UserEventKeyUp {
-        return new UserEventKeyUp(data.read.string(LengthType.Uint16), data.read.uint16());
+    static from(data: ByteSet): EventKeyUp {
+        return new EventKeyUp(data.read.string(LengthType.Uint16), data.read.uint16());
     }
 
     pack(): Uint8Array {

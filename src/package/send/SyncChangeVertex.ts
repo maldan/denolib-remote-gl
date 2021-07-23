@@ -8,28 +8,13 @@ export type Type_ChangeVertex = {
 };
 
 export class SyncChangeVertex extends RGL.Package.Base {
-    changeList: Type_ChangeVertex[];
+    /*changeList: Type_ChangeVertex[];
 
     constructor(changeList: Type_ChangeVertex[]) {
         super(RGL.Package.Type.SyncChangeVertex);
 
         this.changeList = changeList;
     }
-
-    /*static from(data: ByteSet): SyncChangeVertex {
-        const list = [];
-        const amount = data.read.uint16();
-
-        for (let i = 0; i < amount; i++) {
-            const id = data.read.uint16();
-            list.push({
-                id,
-                // vertex: data.read.floatArray(8),
-                vertex: new Float32Array(Array.from(data.read.int16Array(8)).map((x) => x / 4096)),
-            });
-        }
-        return new SyncChangeVertex(list);
-    }*/
 
     pack(): Uint8Array {
         let totalLength = 1 + 2; // type + amount
@@ -51,5 +36,5 @@ export class SyncChangeVertex extends RGL.Package.Base {
         });
 
         return this.buffer;
-    }
+    }*/
 }

@@ -1,4 +1,4 @@
-import { WebSocket } from "../../deps.ts";
+import { EArray, WebSocket } from "../../deps.ts";
 import { RGL } from "../../mod.ts";
 
 export class User {
@@ -22,7 +22,7 @@ export class User {
             this.shaderIdList.push(...list.map((x) => x.id));
 
             // Send package to client
-            await this.send(new RGL.Package.SyncShaderList(filteredList));
+            await this.send(new RGL.Package.ShaderList(filteredList));
         }
     }
 
@@ -36,26 +36,43 @@ export class User {
             this.objectIdList.push(...list.map((x) => x.id));
 
             // Send package to client
-            await this.send(new RGL.Package.SyncObjectList(filteredList));
+            await this.send(new RGL.Package.ObjectList(filteredList));
         }
     }
 
     async syncTextureList(list: RGL.Engine.Texture[]) {
         // Get only objects client doesn't have
-        const filteredList = list.filter((x) => !this.textureIdList.includes(x.id));
+        const filteredList = list; //list.filter((x) => !this.textureIdList.includes(x.id));
 
         // If have any
         if (filteredList.length) {
             // Store sended shaders id
             this.textureIdList.push(...list.map((x) => x.id));
 
+            const chunk = EArray(filteredList).chunk(5);
+
             // Send package to client
-            await this.send(new RGL.Package.SyncTextureList(filteredList));
+            for (let i = 0; i < chunk.length; i++) {
+                await this.send(new RGL.Package.TextureList(chunk[i]));
+            }
+        }
+    }
+
+    async syncDeleteTextureList(list: RGL.Engine.Texture[]) {
+        // If have any
+        if (list.length) {
+            // Send package to client
+            await this.send(new RGL.Package.DeleteTexture(list));
+            EArray(this.textureIdList).delete(...list.map((x) => x.id));
         }
     }
 
     async syncChangeList(list: RGL.Engine.RenderObject[]) {
-        const vertexChangeList = [];
+        if (list.length) {
+            await this.send(new RGL.Package.UpdateObject(list));
+        }
+
+        /*const vertexChangeList = [];
         const textureChangeList = [];
 
         for (let i = 0; i < list.length; i++) {
@@ -82,7 +99,7 @@ export class User {
         }
         if (textureChangeList.length) {
             this.send(new RGL.Package.SyncChangeTexture(textureChangeList));
-        }
+        }*/
     }
 
     async draw() {
